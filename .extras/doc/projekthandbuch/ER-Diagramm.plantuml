@@ -1,0 +1,41 @@
+' Preview durch <Alt>d
+
+@startuml ER Diagramm
+
+' hide the spot
+hide circle
+
+' evtl. Prbleme mit Kraehenfuessen vermeiden
+skinparam linetype ortho
+
+entity "Kunstwerk" {
+  * id: integer <<generated>>
+  --
+  * version: integer
+  * titel: text
+    kuenstlername: text
+    herstellungsjahr: integer
+    preis: number
+  * **typ_id**: integer <<FK>>
+  * erzeugt: timestamp
+  * aktualisiert: timestamp
+}
+
+entity "Typ" {
+  * id: integer <<generated>>
+  --
+  * name: text
+    beschreibung: text
+}
+
+entity "Reproduktion" {
+  * id: integer <<generated>>
+  --
+  * **kunstwerk_id**: integer <<FK>>
+    herstellungsjahr: integer
+}
+
+Kunstwerk ||..|| Typ
+Kunstwerk ||..o{ Reproduktion
+
+@enduml
