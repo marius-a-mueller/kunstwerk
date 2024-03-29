@@ -8,15 +8,14 @@ hide circle
 ' evtl. Prbleme mit Kraehenfuessen vermeiden
 skinparam linetype ortho
 
-entity "Kunstwerk" {
+entity "Packstation" {
   * id: integer <<generated>>
   --
   * version: integer
-  * titel: text
-    kuenstlername: text
-    herstellungsjahr: integer
-    preis: number
+  * nummer: text
+    baudatum: integer
   * **typ_id**: integer <<FK>>
+  * stadt: text
   * erzeugt: timestamp
   * aktualisiert: timestamp
 }
@@ -28,14 +27,15 @@ entity "Typ" {
     beschreibung: text
 }
 
-entity "Reproduktion" {
+entity "Paket" {
   * id: integer <<generated>>
   --
-  * **kunstwerk_id**: integer <<FK>>
-    herstellungsjahr: integer
+    **packstation_id**: integer <<FK>>
+  * packnummer: text
+    gewicht: number
 }
 
-Kunstwerk ||..|| Typ
-Kunstwerk ||..o{ Reproduktion
+Packstation ||..|| Typ
+Packstation ||..o{ Paket
 
 @enduml
