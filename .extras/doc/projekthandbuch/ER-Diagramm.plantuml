@@ -14,28 +14,29 @@ entity "Packstation" {
   * version: integer
   * nummer: text
     baudatum: integer
-  * **typ_id**: integer <<FK>>
-  * stadt: text
+  * **adresse_id**: integer <<FK>>
   * erzeugt: timestamp
   * aktualisiert: timestamp
 }
 
-entity "Typ" {
+entity "Adresse" {
   * id: integer <<generated>>
   --
-  * name: text
-    beschreibung: text
+    strasse: text
+    hausnummer: text
+  * postleitzahl: number
+  * stadt: text
 }
 
 entity "Paket" {
   * id: integer <<generated>>
   --
     **packstation_id**: integer <<FK>>
-  * packnummer: text
+  * nummer: text
     gewicht: number
 }
 
-Packstation ||..|| Typ
+Packstation ||..|| Adresse
 Packstation ||..o{ Paket
 
 @enduml
