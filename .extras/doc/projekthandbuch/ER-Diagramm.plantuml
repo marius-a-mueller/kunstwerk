@@ -33,7 +33,7 @@ entity "Paket" {
   --
     **packstation_id**: integer <<FK>>
   * nummer: text
-    gewicht: number
+    maxGewichtInKg: number
 }
 
 Packstation ||..|| Adresse
