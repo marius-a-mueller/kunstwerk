@@ -1,0 +1,104 @@
+
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+"Funktionen, um Packstationnendaten zu lesen"
+type Query {
+  packstationen(suchkriterien: SuchkriterienInput): [Packstation!]
+
+  packstation(id: ID!): Packstation
+}
+
+"Funktionen, um Packstationen neu anzulegen, zu aktualisieren oder zu löschen"
+type Mutation {
+  create(input: PackstationInput!): CreatePayload
+
+  update(input: PackstationUpdateInput!): UpdatePayload
+
+  delete(id: ID!): Boolean
+
+  # Mutation, wenn z.B. der Login-Zeitpunkt im IDM-System gespeichert wird
+  login(username: String!, password: String!): LoginResult
+  refresh(refresh_token: String!): LoginResult
+}
+
+"Daten zur Adresse einer Packstation"
+type Adresse {
+  strasse: String
+  hausnummer: String
+  postleitzahl: number
+  stadt: string
+}
+
+"Daten zum Paket einer Packstation"
+type Paket {
+  nummer: string
+  maxGewichtInKg: number
+}
+
+"Datenschema zu einer Paketstation, die gelesen wird"
+type Packstation {
+  # ID ist bei Apollo ein String
+  id: Int!
+  version: Int!
+  nummer: string!
+  baudatum: number
+  # 1:1-Beziehung
+  adresse: Adresse!
+
+}
+
+"Suchkriterien für Packstationen"
+input SuchkriterienInput {
+  baudatum: String
+}
+
+"Daten zur Adresse einer neuen Packstation"
+input AdresseInput {
+  strasse: String
+  hausnummer: String
+  postleitzahl: number
+  stadt: string
+}
+
+"Daten zu den Paketen einer Packstation"
+input PaketInput {
+ nummer: string
+  maxGewichtInKg: number
+}
+
+"Daten für eine neue Packstation"
+input PackstationInput {
+   id: Int!
+  version: Int!
+  nummer: string!
+  baudatum: number
+  adresse: AdresseInput
+
+}
+
+type CreatePayload {
+  id: Int
+}
+
+"Daten für eine zu ändernde Packstation"
+input PackstationUpdateInput {
+ id: Int!
+  version: Int!
+  nummer: string!
+  baudatum: number
+}
+
+type UpdatePayload {
+  version: Int
+}
+
+type LoginResult {
+  access_token: String!
+  expires_in: Int!
+  refresh_token: String!
+  refresh_expires_in: Int!
+  roles: [String!]
+}
