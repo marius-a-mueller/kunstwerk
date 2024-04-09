@@ -3,24 +3,21 @@
  * Schreiboperationen im Anwendungskern.
  * @packageDocumentation
  */
-import { InjectRepository } from '@nestjs/typeorm';
-import { Injectable } from '@nestjs/common';
-import { MailService } from '../../mail/mail.service';
-// eslint-disable-next-line sort-imports
 import { type DeleteResult, Repository } from 'typeorm';
-import { Adresse } from '../entity/adresse.entity';
-import { Packstation } from '../entity/packstation.entity';
-import { PackstationReadService } from './packstation-read.service';
-import { Paket } from '../entity/paket.entity';
-import { getLogger } from '../../logger/logger';
-// eslint-disable-next-line sort-imports
 import {
     PackstationIdInvalidException,
     PackstationNotFoundException,
     VersionInvalidException,
     VersionOutdatedException,
 } from './exception';
-
+import { Adresse } from '../entity/adresse.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
+import { MailService } from '../../mail/mail.service';
+import { Packstation } from '../entity/packstation.entity';
+import { PackstationReadService } from './packstation-read.service';
+import { Paket } from '../entity/paket.entity';
+import { getLogger } from '../../logger/logger';
 export interface UpdateParams {
     readonly id: number | undefined;
     readonly packstation: Packstation;

@@ -1,4 +1,3 @@
-
 // eslint-disable-next-line max-classes-per-file
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthGuard, Roles } from 'nest-keycloak-connect';
