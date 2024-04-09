@@ -78,7 +78,7 @@ export class PackstationWriteController {
     }
 
     /**
-     * Ein neues Packstation wird asynchron angelegt. Das neu anzulegende Buch ist als
+     * Ein neues Packstation wird asynchron angelegt. Das neu anzulegende Packstation ist als
      * JSON-Datensatz im Request-Objekt enthalten. Wenn es keine
      * Verletzungen von Constraints gibt, wird der Statuscode `201` (`Created`)
      * gesetzt und im Response-Header wird `Location` auf die URI so gesetzt,
@@ -114,11 +114,11 @@ export class PackstationWriteController {
     }
 
     /**
-     * Ein vorhandenes Buch wird asynchron aktualisiert.
+     * Ein vorhandenes Packstation wird asynchron aktualisiert.
      *
-     * Im Request-Objekt von Express muss die ID des zu aktualisierenden Buches
+     * Im Request-Objekt von Express muss die ID des zu aktualisierenden Packstationes
      * als Pfad-Parameter enthalten sein. Außerdem muss im Rumpf das zu
-     * aktualisierende Buch als JSON-Datensatz enthalten sein. Damit die
+     * aktualisierende Packstation als JSON-Datensatz enthalten sein. Damit die
      * Aktualisierung überhaupt durchgeführt werden kann, muss im Header
      * `If-Match` auf die korrekte Version für optimistische Synchronisation
      * gesetzt sein.
@@ -132,7 +132,7 @@ export class PackstationWriteController {
      * Statuscode `400` (`Bad Request`) gesetzt und genauso auch wenn der neue
      * Titel oder die neue ISBN-Nummer bereits existieren.
      *
-     * @param packstationDTO Buchdaten im Body des Request-Objekts.
+     * @param packstationDTO Packstationdaten im Body des Request-Objekts.
      * @param id Pfad-Paramater für die ID.
      * @param version Versionsnummer aus dem Header _If-Match_.
      * @param res Leeres Response-Objekt von Express.
@@ -190,7 +190,7 @@ export class PackstationWriteController {
     }
 
     /**
-     * Ein Buch wird anhand seiner ID-gelöscht, die als Pfad-Parameter angegeben
+     * Ein Packstation wird anhand seiner ID-gelöscht, die als Pfad-Parameter angegeben
      * ist. Der zurückgelieferte Statuscode ist `204` (`No Content`).
      *
      * @param id Pfad-Paramater für die ID.
