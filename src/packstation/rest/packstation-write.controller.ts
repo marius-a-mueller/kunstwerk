@@ -48,15 +48,16 @@ import {
     UseGuards,
     UseInterceptors,
 } from '@nestjs/common';
+import { type Adresse } from '../entity/adresse.entity.js';
 import { PackstationDTO, PackstationDtoOhneRef } from './packstationDTO.entity.js';
 import { Request, Response } from 'express';
 import { type Paket } from '../entity/paket.entity.js';
 import { Packstation } from '../entity/packstation.entity.js';
 import { PackstationWriteService } from '../service/packstation-write.service.js';
 import { ResponseTimeInterceptor } from '../../logger/response-time.interceptor.js';
-import { type Adresse } from '../entity/adresse.entity.js';
 import { getBaseUri } from './getBaseUri.js';
 import { getLogger } from '../../logger/logger.js';
+import { paths } from '../../config/paths.js';
 
 const MSG_FORBIDDEN = 'Kein Token mit ausreichender Berechtigung vorhanden';
 /**

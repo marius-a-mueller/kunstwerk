@@ -54,6 +54,7 @@ import { type Adresse } from '../entity/adresse.entity.js';
 import { getBaseUri } from './getBaseUri.js';
 import { getLogger } from '../../logger/logger.js';
 import { Packstation } from '../entity/packstation.entity';
+import { paths } from '../../config/paths.js';
 
 /** href-Link für HATEOAS */
 export interface Link {
@@ -204,7 +205,7 @@ export class PackstationGetController {
         const packstation = await this.#service.findById({ id });
         if (this.#logger.isLevelEnabled('debug')) {
             this.#logger.debug('getById(): packstation=%s', packstation.toString());
-            this.#logger.debug('getById(): titel=%o', packstation.titel);
+            this.#logger.debug('getById(): titel=%o', packstation.adresse);
         }
 
         // ETags
