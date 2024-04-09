@@ -54,6 +54,7 @@ import { type Adresse } from '../entity/adresse.entity.js';
 import { getBaseUri } from './getBaseUri.js';
 import { getLogger } from '../../logger/logger.js';
 import { Packstation } from '../entity/packstation.entity';
+import { paths } from '../../config/paths.js';
 
 /** href-Link für HATEOAS */
 export interface Link {
@@ -75,10 +76,10 @@ export interface Links {
     readonly remove?: Link;
 }
 
-/** Typedefinition für ein Adresse-Objekt ohne Rückwärtsverweis zum Buch */
+/** Typedefinition für ein Adresse-Objekt ohne Rückwärtsverweis zum Packstation */
 export type AdresseModel = Omit<Adresse, 'packstation' | 'id'>;
 
-/** Buch-Objekt mit HATEOAS-Links */
+/** Packstation-Objekt mit HATEOAS-Links */
 export type PackstationModel = Omit<
     Packstation,
     'abbildungen' | 'aktualisiert' | 'erzeugt' | 'id' | 'adresse' | 'version'
@@ -88,7 +89,7 @@ export type PackstationModel = Omit<
     _links: Links;
 };
 
-/** Buch-Objekte mit HATEOAS-Links in einem JSON-Array. */
+/** Packstation-Objekte mit HATEOAS-Links in einem JSON-Array. */
 export interface PackstationenModel {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     _embedded: {
@@ -97,9 +98,9 @@ export interface PackstationenModel {
 }
 
 /**
- * Klasse für `BuchGetController`, um Queries in _OpenAPI_ bzw. Swagger zu
- * formulieren. `BuchController` hat dieselben Properties wie die Basisklasse
- * `Buch` - allerdings mit dem Unterschied, dass diese Properties beim Ableiten
+ * Klasse für `PackstationGetController`, um Queries in _OpenAPI_ bzw. Swagger zu
+ * formulieren. `PackstationController` hat dieselben Properties wie die Basisklasse
+ * `Packstation` - allerdings mit dem Unterschied, dass diese Properties beim Ableiten
  * so überschrieben sind, dass sie auch nicht gesetzt bzw. undefined sein
  * dürfen, damit die Queries flexibel formuliert werden können. Deshalb ist auch
  * immer der zusätzliche Typ undefined erforderlich.
@@ -138,23 +139,23 @@ export class PackstationGetController {
     readonly #logger = getLogger(PackstationGetController.name);
 
     // Dependency Injection (DI) bzw. Constructor Injection
-    // constructor(private readonly service: BuchReadService) {}
+    // constructor(private readonly service: PackstationReadService) {}
     // https://github.com/tc39/proposal-type-annotations#omitted-typescript-specific-features-that-generate-code
     constructor(service: PackstationReadService) {
         this.#service = service;
     }
 
     /**
-     * Ein Buch wird asynchron anhand seiner ID als Pfadparameter gesucht.
+     * Ein Packstation wird asynchron anhand seiner ID als Pfadparameter gesucht.
      *
-     * Falls es ein solches Buch gibt und `If-None-Match` im Request-Header
-     * auf die aktuelle Version des Buches gesetzt war, wird der Statuscode
+     * Falls es ein solches Packstation gibt und `If-None-Match` im Request-Header
+     * auf die aktuelle Version des Packstationes gesetzt war, wird der Statuscode
      * `304` (`Not Modified`) zurückgeliefert. Falls `If-None-Match` nicht
      * gesetzt ist oder eine veraltete Version enthält, wird das gefundene
-     * Buch im Rumpf des Response als JSON-Datensatz mit Atom-Links für HATEOAS
+     * Packstation im Rumpf des Response als JSON-Datensatz mit Atom-Links für HATEOAS
      * und dem Statuscode `200` (`OK`) zurückgeliefert.
      *
-     * Falls es kein Buch zur angegebenen ID gibt, wird der Statuscode `404`
+     * Falls es kein Packstation zur angegebenen ID gibt, wird der Statuscode `404`
      * (`Not Found`) zurückgeliefert.
      *
      * @param idStr Pfad-Parameter `id`
@@ -204,7 +205,7 @@ export class PackstationGetController {
         const packstation = await this.#service.findById({ id });
         if (this.#logger.isLevelEnabled('debug')) {
             this.#logger.debug('getById(): packstation=%s', packstation.toString());
-            this.#logger.debug('getById(): titel=%o', packstation.titel);
+            this.#logger.debug('getById(): titel=%o', packstation.adresse);
         }
 
         // ETags
@@ -224,11 +225,11 @@ export class PackstationGetController {
 
     /**
      * Bücher werden mit Query-Parametern asynchron gesucht. Falls es mindestens
-     * ein solches Buch gibt, wird der Statuscode `200` (`OK`) gesetzt. Im Rumpf
+     * ein solches Packstation gibt, wird der Statuscode `200` (`OK`) gesetzt. Im Rumpf
      * des Response ist das JSON-Array mit den gefundenen Büchern, die jeweils
      * um Atom-Links für HATEOAS ergänzt sind.
      *
-     * Falls es kein Buch zu den Suchkriterien gibt, wird der Statuscode `404`
+     * Falls es kein Packstation zu den Suchkriterien gibt, wird der Statuscode `404`
      * (`Not Found`) gesetzt.
      *
      * Falls es keine Query-Parameter gibt, werden alle Bücher ermittelt.
@@ -257,7 +258,7 @@ export class PackstationGetController {
         const packstationen = await this.#service.find(query);
         this.#logger.debug('get: %o', packstationen);
 
-        // HATEOAS: Atom Links je Buch
+        // HATEOAS: Atom Links je Packstation
         const packstationenModel = packstationen.map((packstation) =>
             this.#toModel(packstation, req, false),
         );

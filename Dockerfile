@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.7.0
 
-# Aufruf:   docker build --tag team1/buch:2024.04.0-bookworm .
+# Aufruf:   docker build --tag team1/packstation:2024.04.0-bookworm .
 #               ggf. --progress=plain
 #               ggf. --no-cache
 #           Get-Content Dockerfile | docker run --rm --interactive hadolint/hadolint:2.12.1-beta-debian
@@ -115,8 +115,8 @@ FROM node:${NODE_VERSION}-bookworm-slim AS final
 # https://specs.opencontainers.org/image-spec/annotations
 # https://spdx.org/licenses
 # MAINTAINER ist deprecated https://docs.docker.com/engine/reference/builder/#maintainer-deprecated
-LABEL org.opencontainers.image.title="buch" \
-    org.opencontainers.image.description="Appserver buch mit Basis-Image Debian Bookworm" \
+LABEL org.opencontainers.image.title="packstation" \
+    org.opencontainers.image.description="Appserver packstation mit Basis-Image Debian Bookworm" \
     org.opencontainers.image.version="2024.04.0-bookworm" \
     org.opencontainers.image.licenses="GPL-3.0-or-later" \
     org.opencontainers.image.authors="Juergen.Zimmermann@h-ka.de"

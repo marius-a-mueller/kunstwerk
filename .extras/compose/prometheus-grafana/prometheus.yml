@@ -4,7 +4,7 @@ global:
 
 # https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config
 scrape_configs:
-  - job_name: buch
+  - job_name: packstation
     scheme: https
     # https://prometheus.io/docs/prometheus/latest/configuration/configuration/#tls_config
     tls_config:
@@ -14,4 +14,4 @@ scrape_configs:
     static_configs:
       - targets: ['host.docker.internal:3000']
         labels:
-          application: buch
+          application: packstation

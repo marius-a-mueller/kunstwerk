@@ -7,7 +7,7 @@ fi
 
 diveVersion='v0.12.0'
 imagePrefix='juergenzimmermann/'
-imageBase='buch'
+imageBase='packstation'
 imageTag="2024.04.0-$base"
 image="$imagePrefix${imageBase}:$imageTag"
 
