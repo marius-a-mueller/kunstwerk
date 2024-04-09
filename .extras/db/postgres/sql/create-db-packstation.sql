@@ -57,12 +57,12 @@
 -- * Schluessellaenge 2048 Bit
 
 -- https://www.postgresql.org/docs/current/sql-createrole.html
-CREATE ROLE buch LOGIN PASSWORD 'p';
+CREATE ROLE packstation LOGIN PASSWORD 'p';
 
 -- https://www.postgresql.org/docs/current/sql-createdatabase.html
-CREATE DATABASE buch;
+CREATE DATABASE packstation;
 
-GRANT ALL ON DATABASE buch TO buch;
+GRANT ALL ON DATABASE packstation TO packstation;
 
 -- https://www.postgresql.org/docs/10/sql-createtablespace.html
-CREATE TABLESPACE buchspace OWNER buch LOCATION '/var/lib/postgresql/tablespace/buch';
+CREATE TABLESPACE packstationspace OWNER packstation LOCATION '/var/lib/postgresql/tablespace/packstation';

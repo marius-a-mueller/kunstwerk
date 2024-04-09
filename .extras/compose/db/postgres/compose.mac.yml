@@ -51,7 +51,7 @@ services:
         # .s.PGSQL.5432.lock
         target: /var/run/postgresql
       - type: bind
-        source: ~/volumes/postgres/csv/buch
+        source: ~/volumes/postgres/csv/packstation
         target: /csv
         read_only: true
       - type: bind

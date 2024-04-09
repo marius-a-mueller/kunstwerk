@@ -62,7 +62,7 @@ services:
     networks: [jenkins-network]
     volumes:
       - type: bind
-        # /var/jenkins_home/workspace enthaelt das Verzeichnis "buch"
+        # /var/jenkins_home/workspace enthaelt das Verzeichnis "packstation"
         source: C:/Zimmermann/volumes/jenkins/jenkins_home
         target: /var/jenkins_home
       - type: bind

@@ -8,14 +8,14 @@
 # D a t e n b a n k
 # ==============================================================================
 
-# "pg-native" erfordert die Installation von PostgreSQL: Docker-Image genügt nicht
+# "pg-native" erfordert zusaetzlich die lokale Installation von PostgreSQL
 # "better-sqlite3" erfordert Python zum Uebersetzen, wenn das Docker-Image gebaut wird
 
 db:
   #type: postgres
   #type: sqlite
 
-  host: postgres
+  #host: localhost
 
   #username: packstation
   #password: p
@@ -27,7 +27,7 @@ db:
 # K e y c l o a k
 # ==============================================================================
 keycloak:
-  authServerUrl: http://keycloak:8080
+  #authServerUrl: http://localhost:8080
   #realm: acme
   # siehe Keycloak Menuepunkt "Clients" > Tab "Clients list" > Spalte "Client ID"
   #clientId: packstation-client
@@ -38,7 +38,7 @@ keycloak:
 # ==============================================================================
 log:
   level: debug
-  dir: /tmp
+  #dir: ./log
   pretty: true
   #default: true
 
@@ -61,13 +61,12 @@ health:
 # ==============================================================================
 mail:
   #activated: false
-  host: fakesmtp
-  port: 8025
+  host: localhost
+  port: 5025
   log: false
 
 # ==============================================================================
-# Authentifizierung
+# T e s t s
 # ==============================================================================
-auth:
-  # https://github.com/docker/compose/issues/6741: '' wegen $
-  passwordEncoded: '$argon2i$v=19$m=4096,t=3,p=1$aaxA2v/9rRSPGkwYN+NQog$27Huii1XtD3iEd62fog+04G26LRPZMHoYCI6AGKTL8M'
+#test:
+#  startDbServer: false

@@ -1,8 +1,8 @@
 {
-  "name": "buch",
+  "name": "packstation",
   "version": "2024.04.0",
-  "description": "Beispiel",
-  "author": "Juergen Zimmermann",
+  "description": "Projekt 1",
+  "author": "Team 1",
   "private": true,
   "license": "GPL-3.0",
   "exports": "./dist/src/main.js",
