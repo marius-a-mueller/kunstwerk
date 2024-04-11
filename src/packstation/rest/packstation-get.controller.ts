@@ -1,20 +1,4 @@
 /* eslint-disable max-lines */
-/*
- * Copyright (C) 2021 - present Juergen Zimmermann, Hochschule Karlsruhe
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
 
 /**
  * Das Modul besteht aus der Controller-Klasse für Lesen an der REST-Schnittstelle.
@@ -44,9 +28,9 @@ import {
     Res,
     UseInterceptors,
 } from '@nestjs/common';
-import { type Adresse } from '../entity/adresse.entity.js';
 import { Request, Response } from 'express';
-import { Packstation } from '../entity/packstation.entity';
+import { type Adresse } from '../entity/adresse.entity.js';
+import { type Packstation } from '../entity/packstation.entity';
 import { PackstationReadService } from '../service/packstation-read.service.js';
 import { Public } from 'nest-keycloak-connect';
 import { ResponseTimeInterceptor } from '../../logger/response-time.interceptor.js';
@@ -75,13 +59,13 @@ export interface Links {
     readonly remove?: Link;
 }
 
-/** Typedefinition für ein Adresse-Objekt ohne Rückwärtsverweis zum Packstation */
+/** Typedefinition für ein Adresse-Objekt ohne Rückwärtsverweis zur Packstation */
 export type AdresseModel = Omit<Adresse, 'packstation' | 'id'>;
 
 /** Packstation-Objekt mit HATEOAS-Links */
 export type PackstationModel = Omit<
     Packstation,
-    'abbildungen' | 'aktualisiert' | 'erzeugt' | 'id' | 'adresse' | 'version'
+    'pakete' | 'aktualisiert' | 'erzeugt' | 'id' | 'adresse' | 'version'
 > & {
     adresse: AdresseModel;
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -294,14 +278,21 @@ export class PackstationGetController {
               }
             : { self: { href: `${baseUri}/${id}` } };
 
-        this.#logger.debug('#toModel: packstation=%o, links=%o', packstation, links);
+        this.#logger.debug(
+            '#toModel: packstation=%o, links=%o',
+            packstation,
+            links,
+        );
         const adresseModel: AdresseModel = {
-            adresse: packstation.adresse?.adresse ?? 'N/A',
+            strasse: packstation.adresse?.strasse ?? 'N/A',
+            hausnummer: packstation.adresse?.hausnummer ?? 'N/A',
+            postleitzahl: packstation.adresse?.postleitzahl ?? 'N/A',
+            stadt: packstation.adresse?.stadt ?? 'N/A',
         };
         const packstationModel: PackstationModel = {
             nummer: packstation.nummer,
             baudatum: packstation.baudatum,
-            packstation: packstationModel,
+            adresse: adresseModel,
             _links: links,
         };
 
