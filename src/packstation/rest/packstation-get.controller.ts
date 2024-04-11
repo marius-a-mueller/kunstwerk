@@ -1,5 +1,5 @@
+// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
 /* eslint-disable max-lines */
-
 /**
  * Das Modul besteht aus der Controller-Klasse für Lesen an der REST-Schnittstelle.
  * @packageDocumentation
@@ -67,7 +67,7 @@ export type PackstationModel = Omit<
     Packstation,
     'pakete' | 'aktualisiert' | 'erzeugt' | 'id' | 'adresse' | 'version'
 > & {
-    adresse: AdresseModel;
+    adresse: AdresseModel | undefined;
     // eslint-disable-next-line @typescript-eslint/naming-convention
     _links: Links;
 };
@@ -92,44 +92,35 @@ export interface PackstationenModel {
  */
 export class PackstationQuery implements Suchkriterien {
     @ApiProperty({ required: false })
-    declare readonly nummmer: string;
+    declare readonly nummmer: string | undefined;
 
     @ApiProperty({ required: false })
-    declare readonly baudatumVon: Date;
+    readonly baudatumVon?: Date;
 
     @ApiProperty({ required: false })
-    declare readonly baudatumBis: Date;
+    readonly baudatumBis?: Date;
 
     @ApiProperty({ required: false })
-    declare readonly hatPakete: boolean;
+    readonly hatPakete?: boolean;
 
     @ApiProperty({ required: false })
-    declare readonly stadt: string;
+    readonly stadt?: string;
 }
 
 const APPLICATION_HAL_JSON = 'application/hal+json';
 
 /**
- * Die Controller-Klasse für die Verwaltung von Bücher.
+ * Die Controller-Klasse für die Verwaltung von Packstationen.
  */
-// Decorator in TypeScript, zur Standardisierung in ES vorgeschlagen (stage 3)
-// https://devblogs.microsoft.com/typescript/announcing-typescript-5-0-beta/#decorators
-// https://github.com/tc39/proposal-decorators
 @Controller(paths.rest)
 @UseInterceptors(ResponseTimeInterceptor)
 @ApiTags('Packstation REST-API')
 // @ApiBearerAuth()
-// Klassen ab ES 2015
 export class PackstationGetController {
-    // readonly in TypeScript, vgl. C#
-    // private ab ES 2019
     readonly #service: PackstationReadService;
 
     readonly #logger = getLogger(PackstationGetController.name);
 
-    // Dependency Injection (DI) bzw. Constructor Injection
-    // constructor(private readonly service: PackstationReadService) {}
-    // https://github.com/tc39/proposal-type-annotations#omitted-typescript-specific-features-that-generate-code
     constructor(service: PackstationReadService) {
         this.#service = service;
     }
@@ -140,11 +131,11 @@ export class PackstationGetController {
      * Falls es ein solches Packstation gibt und `If-None-Match` im Request-Header
      * auf die aktuelle Version des Packstationes gesetzt war, wird der Statuscode
      * `304` (`Not Modified`) zurückgeliefert. Falls `If-None-Match` nicht
-     * gesetzt ist oder eine veraltete Version enthält, wird das gefundene
+     * gesetzt ist oder eine veraltete Version enthält, wird die gefundene
      * Packstation im Rumpf des Response als JSON-Datensatz mit Atom-Links für HATEOAS
      * und dem Statuscode `200` (`OK`) zurückgeliefert.
      *
-     * Falls es kein Packstation zur angegebenen ID gibt, wird der Statuscode `404`
+     * Falls es keine Packstation zur angegebenen ID gibt, wird der Statuscode `404`
      * (`Not Found`) zurückgeliefert.
      *
      * @param idStr Pfad-Parameter `id`
@@ -218,15 +209,15 @@ export class PackstationGetController {
     }
 
     /**
-     * Bücher werden mit Query-Parametern asynchron gesucht. Falls es mindestens
-     * ein solches Packstation gibt, wird der Statuscode `200` (`OK`) gesetzt. Im Rumpf
-     * des Response ist das JSON-Array mit den gefundenen Büchern, die jeweils
+     * Packstationen werden mit Query-Parametern asynchron gesucht. Falls es mindestens
+     * ein solche Packstation gibt, wird der Statuscode `200` (`OK`) gesetzt. Im Rumpf
+     * des Response ist das JSON-Array mit den gefundenen Packstationen, die jeweils
      * um Atom-Links für HATEOAS ergänzt sind.
      *
-     * Falls es kein Packstation zu den Suchkriterien gibt, wird der Statuscode `404`
+     * Falls es keine Packstation zu den Suchkriterien gibt, wird der Statuscode `404`
      * (`Not Found`) gesetzt.
      *
-     * Falls es keine Query-Parameter gibt, werden alle Bücher ermittelt.
+     * Falls es keine Query-Parameter gibt, werden alle Packstationen ermittelt.
      *
      * @param query Query-Parameter von Express.
      * @param req Request-Objekt von Express.
@@ -283,13 +274,24 @@ export class PackstationGetController {
             packstation,
             links,
         );
-        const adresseModel: AdresseModel = {
-            strasse: packstation.adresse?.strasse ?? 'N/A',
-            hausnummer: packstation.adresse?.hausnummer ?? 'N/A',
-            postleitzahl: packstation.adresse?.postleitzahl ?? 'N/A',
-            stadt: packstation.adresse?.stadt ?? 'N/A',
-        };
-        const packstationModel: PackstationModel = {
+        const adresseModel = packstation.adresse
+            ? {
+                  strasse: packstation.adresse.strasse ?? 'N/A',
+                  hausnummer: packstation.adresse.hausnummer ?? 'N/A',
+                  postleitzahl: packstation.adresse.postleitzahl ?? 'N/A',
+                  stadt: packstation.adresse.stadt ?? 'N/A',
+              }
+            : undefined;
+        const packstationModel: PackstationModel &
+            Omit<
+                Packstation,
+                | 'pakete'
+                | 'aktualisiert'
+                | 'erzeugt'
+                | 'id'
+                | 'adresse'
+                | 'version'
+            > = {
             nummer: packstation.nummer,
             baudatum: packstation.baudatum,
             adresse: adresseModel,
@@ -299,4 +301,3 @@ export class PackstationGetController {
         return packstationModel;
     }
 }
-/* eslint-enable max-lines */
