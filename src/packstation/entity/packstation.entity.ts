@@ -32,7 +32,7 @@ export class Packstation {
 
     @Column('date')
     @ApiProperty({ example: '2021-06-01', type: Date })
-    readonly baudatum: number | undefined;
+    readonly baudatum: Date | undefined;
 
     @OneToMany(() => Paket, (paket) => paket.packstation, {
         cascade: ['insert', 'remove'],

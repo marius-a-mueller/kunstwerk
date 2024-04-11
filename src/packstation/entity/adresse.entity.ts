@@ -19,7 +19,7 @@ export class Adresse {
     readonly hausnummer: string | undefined;
 
     @Column('integer')
-    readonly postleitzahl: number | undefined;
+    readonly postleitzahl: string | undefined;
 
     @Column('varchar')
     readonly stadt: string | undefined;
