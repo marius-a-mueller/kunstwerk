@@ -245,7 +245,9 @@ export class PackstationWriteController {
         return packstation;
     }
 
-    #packstationDtoOhneRefToPackstation(packstationDTO: PackstationDtoOhneRef): Packstation {
+    #packstationDtoOhneRefToPackstation(
+        packstationDTO: PackstationDtoOhneRef,
+    ): Packstation {
         return {
             id: undefined,
             version: undefined,
