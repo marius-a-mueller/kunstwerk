@@ -32,7 +32,6 @@ import {
     ApiResponse,
     ApiTags,
 } from '@nestjs/swagger';
-import { Packstation } from '../entity/packstation.entity.js';
 import {
     Controller,
     Get,
@@ -45,15 +44,15 @@ import {
     Res,
     UseInterceptors,
 } from '@nestjs/common';
+import { type Adresse } from '../entity/adresse.entity.js';
 import { Request, Response } from 'express';
+import { Packstation } from '../entity/packstation.entity';
 import { PackstationReadService } from '../service/packstation-read.service.js';
 import { Public } from 'nest-keycloak-connect';
 import { ResponseTimeInterceptor } from '../../logger/response-time.interceptor.js';
 import { type Suchkriterien } from '../service/suchkriterien.js';
-import { type Adresse } from '../entity/adresse.entity.js';
 import { getBaseUri } from './getBaseUri.js';
 import { getLogger } from '../../logger/logger.js';
-import { Packstation } from '../entity/packstation.entity';
 import { paths } from '../../config/paths.js';
 
 /** href-Link für HATEOAS */
@@ -112,10 +111,16 @@ export class PackstationQuery implements Suchkriterien {
     declare readonly nummmer: string;
 
     @ApiProperty({ required: false })
-    declare readonly baudatum: string;
+    declare readonly baudatumVon: Date;
 
     @ApiProperty({ required: false })
-    declare readonly adresse: string;
+    declare readonly baudatumBis: Date;
+
+    @ApiProperty({ required: false })
+    declare readonly hatPakete: boolean;
+
+    @ApiProperty({ required: false })
+    declare readonly stadt: string;
 }
 
 const APPLICATION_HAL_JSON = 'application/hal+json';
@@ -165,7 +170,7 @@ export class PackstationGetController {
      * @param res Leeres Response-Objekt von Express.
      * @returns Leeres Promise-Objekt.
      */
-    // eslint-disable-next-line max-params
+    // eslint-disable-next-line max-params, max-lines-per-function
     @Get(':id')
     @Public()
     @ApiOperation({ summary: 'Suche mit der Packstation-ID' })
@@ -194,7 +199,9 @@ export class PackstationGetController {
         const id = Number(idStr);
         if (!Number.isInteger(id)) {
             this.#logger.debug('getById: not isInteger()');
-            throw new NotFoundException(`Die Packstation-ID ${idStr} ist ungueltig.`);
+            throw new NotFoundException(
+                `Die Packstation-ID ${idStr} ist ungueltig.`,
+            );
         }
 
         if (req.accepts([APPLICATION_HAL_JSON, 'json', 'html']) === false) {
@@ -204,7 +211,10 @@ export class PackstationGetController {
 
         const packstation = await this.#service.findById({ id });
         if (this.#logger.isLevelEnabled('debug')) {
-            this.#logger.debug('getById(): packstation=%s', packstation.toString());
+            this.#logger.debug(
+                'getById(): packstation=%s',
+                packstation.toString(),
+            );
             this.#logger.debug('getById(): titel=%o', packstation.adresse);
         }
 
@@ -264,7 +274,9 @@ export class PackstationGetController {
         );
         this.#logger.debug('get: packstationenModel=%o', packstationenModel);
 
-        const result: PackstationenModel = { _embedded: { packstationen: packstationenModel } };
+        const result: PackstationenModel = {
+            _embedded: { packstationen: packstationenModel },
+        };
         return res.contentType(APPLICATION_HAL_JSON).json(result).send();
     }
 
@@ -284,7 +296,7 @@ export class PackstationGetController {
 
         this.#logger.debug('#toModel: packstation=%o, links=%o', packstation, links);
         const adresseModel: AdresseModel = {
-            titel: packstation.adresse?.adresse ?? 'N/A',
+            adresse: packstation.adresse?.adresse ?? 'N/A',
         };
         const packstationModel: PackstationModel = {
             nummer: packstation.nummer,
