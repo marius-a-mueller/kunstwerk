@@ -9,7 +9,16 @@ import { Injectable } from '@nestjs/common';
 import { Packstation } from '../entity/packstation.entity.js';
 import { Paket } from '../entity/paket.entity.js';
 import { Repository } from 'typeorm';
+import { type Suchkriterien } from './suchkriterien.js';
 import { getLogger } from '../../logger/logger.js';
+
+/** Typdefinitionen für die Suche mit der Packstation-ID. */
+export interface BuildIdParams {
+    /** ID der gesuchten Packstation. */
+    readonly id: number;
+    /** Sollen die Pakete mitgeladen werden? */
+    readonly mitPaketen?: boolean;
+}
 
 /**
  * Die Klasse `QueryBuilder` implementiert das Lesen für Packstationen und greift
@@ -42,23 +51,25 @@ export class QueryBuilder {
      * @param id ID der gesuchten Packstation
      * @returns QueryBuilder
      */
-    buildId(id: number) {
+    buildId({ id, mitPaketen = false }: BuildIdParams) {
         // QueryBuilder "packstation" für Repository<Packstation>
         const queryBuilder = this.#repo.createQueryBuilder(
             this.#packstationAlias,
         );
 
         // Fetch-Join: aus QueryBuilder "packstation" die Property "adresse" ->  Tabelle "adresse"
-        queryBuilder.leftJoinAndSelect(
+        queryBuilder.innerJoinAndSelect(
             `${this.#packstationAlias}.adresse`,
             this.#adresseAlias,
         );
 
-        // Fetch-Join: aus QueryBuilder "packstation" die Property "pakete" -> Tabelle "paket"
-        queryBuilder.leftJoinAndSelect(
-            `${this.#packstationAlias}.pakete`,
-            this.#paketAlias,
-        );
+        if (mitPaketen) {
+            // Fetch-Join: aus QueryBuilder "packstation" die Property "pakete" -> Tabelle "pakete"
+            queryBuilder.leftJoinAndSelect(
+                `${this.#packstationAlias}.pakete`,
+                this.#paketAlias,
+            );
+        }
 
         queryBuilder.where(`${this.#packstationAlias}.id = :id`, { id });
         return queryBuilder;
@@ -70,38 +81,82 @@ export class QueryBuilder {
      * @param stadt Stadt der Packstation
      * @returns QueryBuilder
      */
-    build({ nummer, stadt }: { nummer?: string; stadt?: string }) {
-        this.#logger.debug('build: nummer=%s, stadt=%s', nummer, stadt);
+    // eslint-disable-next-line max-lines-per-function
+    build({
+        nummer,
+        baudatumVon,
+        baudatumBis,
+        hatPakete,
+        stadt,
+    }: Suchkriterien) {
+        this.#logger.debug(
+            'build: nummer=%s, baudatumVon=%o, baudatumBis=%o, hatPakete=%s, stadt=%s',
+            nummer,
+            baudatumVon,
+            baudatumBis,
+            hatPakete,
+            stadt,
+        );
 
         let queryBuilder = this.#repo.createQueryBuilder(
             this.#packstationAlias,
         );
-        queryBuilder = queryBuilder.leftJoinAndSelect(
+        queryBuilder.leftJoinAndSelect(
             `${this.#packstationAlias}.adresse`,
             this.#adresseAlias,
         );
-        queryBuilder = queryBuilder.leftJoinAndSelect(
+        queryBuilder.leftJoinAndSelect(
             `${this.#packstationAlias}.pakete`,
             this.#paketAlias,
         );
 
-        let whereUsed = false;
+        let useWhere = true; // Steuert, ob 'where' oder 'andWhere' verwendet wird
 
         if (nummer !== undefined) {
             queryBuilder = queryBuilder.where(
                 `${this.#packstationAlias}.nummer = :nummer`,
                 { nummer },
             );
-            whereUsed = true;
+            useWhere = false;
         }
 
-        if (stadt !== undefined) {
-            const whereOrAnd = whereUsed ? 'andWhere' : 'where';
-            queryBuilder = queryBuilder[whereOrAnd](
-                `${this.#adresseAlias}.stadt = :stadt`,
-                { stadt },
-            );
+        if (baudatumVon !== undefined) {
+            queryBuilder = useWhere
+                ? queryBuilder.where(
+                      `${this.#packstationAlias}.baudatum >= :baudatumVon`,
+                      { baudatumVon },
+                  )
+                : queryBuilder.andWhere(
+                      `${this.#packstationAlias}.baudatum >= :baudatumVon`,
+                      { baudatumVon },
+                  );
+            useWhere = false;
         }
+
+        if (baudatumBis !== undefined) {
+            queryBuilder = useWhere
+                ? queryBuilder.where(
+                      `${this.#packstationAlias}.baudatum <= :baudatumBis`,
+                      { baudatumBis },
+                  )
+                : queryBuilder.andWhere(
+                      `${this.#packstationAlias}.baudatum <= :baudatumBis`,
+                      { baudatumBis },
+                  );
+            useWhere = false;
+        }
+
+        const paketeBedingung = `SIZE(${this.#packstationAlias}.pakete) > 0`;
+        queryBuilder = useWhere
+            ? queryBuilder.where(paketeBedingung)
+            : queryBuilder.andWhere(paketeBedingung);
+        queryBuilder = queryBuilder.where(
+            `${this.#adresseAlias}.stadt = :stadt`,
+            {
+                stadt,
+            },
+        );
+        useWhere = false;
 
         this.#logger.debug('build: sql=%s', queryBuilder.getSql());
         return queryBuilder;
