@@ -22,7 +22,7 @@ export class Adresse {
     readonly postleitzahl: string | undefined;
 
     @Column('varchar')
-    readonly stadt: string | undefined;
+    readonly stadt!: string;
 
     @OneToOne(() => Packstation, (packstation) => packstation.adresse)
     @JoinColumn({ name: 'packstation_id' })

@@ -21,9 +21,9 @@ export class AdresseDTO {
     @ApiProperty({ example: 'Die Hausnummer', type: String })
     readonly hausnummer!: string;
 
-    @MaxLength(40)
-    @ApiProperty({ example: 'Die Postleitzahl', type: Number })
-    readonly postleitzahl!: number;
+    @MaxLength(10)
+    @ApiProperty({ example: 'Die Postleitzahl', type: String })
+    readonly postleitzahl!: string;
 
     @IsOptional()
     @MaxLength(40)
