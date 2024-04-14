@@ -60,7 +60,6 @@ export class Packstation {
             version: this.version,
             nummer: this.nummer,
             baudatum: this.baudatum,
-            adresse: this.adresse,
             erzeugt: this.erzeugt,
             aktualisiert: this.aktualisiert,
         });
