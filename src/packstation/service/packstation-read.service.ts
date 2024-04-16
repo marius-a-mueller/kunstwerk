@@ -33,10 +33,11 @@ export class PackstationReadService {
         this.#queryBuilder = queryBuilder;
     }
 
+    // TODO Mit Paketen implementieren
     async findById({ id }: FindByIdParams) {
         this.#logger.debug('findById: id=%d', id);
 
-        const packstation = await this.#queryBuilder.buildId(id).getOne();
+        const packstation = await this.#queryBuilder.buildId({ id }).getOne();
         if (packstation === null) {
             throw new NotFoundException(
                 `Es gibt keine Packstation mit der ID ${id}.`,
