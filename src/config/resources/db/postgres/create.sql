@@ -26,9 +26,9 @@ CREATE TABLE IF NOT EXISTS packstation (
 
 CREATE TABLE IF NOT EXISTS adresse (
     id                integer GENERATED ALWAYS AS IDENTITY(START WITH 1000) PRIMARY KEY USING INDEX TABLESPACE packstationspace,
-    strasse           varchar(32) NOT NULL,
-    hausnummer        varchar(8) NOT NULL,
-    postleitzahl      varchar(5) NOT NULL,
+    strasse           varchar(32),
+    hausnummer        varchar(8),
+    postleitzahl      varchar(5),
     stadt             varchar(32) NOT NULL,
     packstation_id    integer NOT NULL UNIQUE USING INDEX TABLESPACE packstationspace REFERENCES packstation
 ) TABLESPACE packstationspace;
@@ -39,4 +39,4 @@ CREATE TABLE IF NOT EXISTS paket (
     max_gewicht_in_kg decimal(8,2),
     packstation_id    integer NOT NULL REFERENCES packstation
 ) TABLESPACE packstationspace;
-CREATE INDEX IF NOT EXISTS pakete_packstation_id_idx ON pakete(packstation_id) TABLESPACE packstationspace;
+CREATE INDEX IF NOT EXISTS pakete_packstation_id_idx ON paket(packstation_id) TABLESPACE packstationspace;
