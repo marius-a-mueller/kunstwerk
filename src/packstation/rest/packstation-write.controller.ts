@@ -47,7 +47,7 @@ import { paths } from '../../config/paths.js';
 
 const MSG_FORBIDDEN = 'Kein Token mit ausreichender Berechtigung vorhanden';
 /**
- * Die Controller-Klasse für die Verwaltung von Bücher.
+ * Die Controller-Klasse für die Verwaltung von Packstationen.
  */
 @Controller(paths.rest)
 @UseGuards(AuthGuard)

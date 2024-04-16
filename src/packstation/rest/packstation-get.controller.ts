@@ -227,7 +227,7 @@ export class PackstationGetController {
     @Get()
     @Public()
     @ApiOperation({ summary: 'Suche mit Suchkriterien' })
-    @ApiOkResponse({ description: 'Eine evtl. leere Liste mit Büchern' })
+    @ApiOkResponse({ description: 'Eine evtl. leere Liste mit Packstationen' })
     async get(
         @Query() query: PackstationQuery,
         @Req() req: Request,
