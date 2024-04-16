@@ -8,12 +8,12 @@ import { HttpException, HttpStatus } from '@nestjs/common';
  */
 
 /**
- * Exception-Klasse für eine ungültige Packstations-ID.
+ * Exception-Klasse für eine ungültige Packstationsnummer.
  */
-export class PackstationIdInvalidException extends HttpException {
-    constructor(readonly id: number | undefined) {
+export class PackstationNummerInvalidException extends HttpException {
+    constructor(readonly nummer: string | undefined) {
         super(
-            `Die Packstations-ID ${id} ist ungültig oder nicht vorhanden.`,
+            `Die Packstationsnummer ${nummer} ist ungültig oder nicht vorhanden.`,
             HttpStatus.NOT_FOUND,
         );
     }

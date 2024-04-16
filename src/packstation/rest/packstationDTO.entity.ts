@@ -8,8 +8,8 @@
 import {
     IsArray,
     IsISO8601,
-    IsInt,
     IsOptional,
+    IsString,
     ValidateNested,
 } from 'class-validator';
 
@@ -25,14 +25,14 @@ export const MAX_RATING = 5;
  */
 export class PackstationDtoOhneRef {
     // https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s13.html
-    @IsInt()
+    @IsString()
     @ApiProperty({ example: '12345', type: String })
     readonly nummer!: string;
 
     @IsISO8601({ strict: true })
     @IsOptional()
     @ApiProperty({ example: '2021-06-01' })
-    readonly baudatum: Date | undefined;
+    readonly baudatum: Date | string | undefined;
 }
 
 /**
