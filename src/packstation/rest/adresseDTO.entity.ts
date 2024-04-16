@@ -28,6 +28,6 @@ export class AdresseDTO {
     @IsOptional()
     @MaxLength(40)
     @ApiProperty({ example: 'Die Stadt', type: String })
-    readonly stadt: string | undefined;
+    readonly stadt!: string;
 }
 /* eslint-enable @typescript-eslint/no-magic-numbers */

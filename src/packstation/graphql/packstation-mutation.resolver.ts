@@ -3,12 +3,15 @@ import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthGuard, Roles } from 'nest-keycloak-connect';
 import { IsInt, IsNumberString, Min } from 'class-validator';
 import { UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
-import { type Packstation } from '../entity/packstation.entity.js';
-import { PackstationDTO } from '../rest/PackstationDTO.entity.js';
-import { PackstationWriteService } from '../service/packstation-write.service.js';
+import { type Adresse } from '../entity/adresse.entity.js';
 import { HttpExceptionFilter } from './http-exception.filter.js';
 import { type IdInput } from './packstation-query.resolver.js';
+import { type Packstation } from '../entity/packstation.entity.js';
+import { PackstationDTO } from '../rest/packstationDTO.entity.js';
+import { PackstationWriteService } from '../service/packstation-write.service.js';
+import { type Paket } from '../entity/paket.entity.js';
 import { ResponseTimeInterceptor } from '../../logger/response-time.interceptor.js';
+import { getLogger } from '../../logger/logger.js';
 
 // Authentifizierung und Autorisierung durch
 //  GraphQL Shield
@@ -68,7 +71,8 @@ export class PackstationMutationResolver {
     async update(@Args('input') packstationDTO: PackstationUpdateDTO) {
         this.#logger.debug('update: packstation=%o', packstationDTO);
 
-        const packstation = this.#packstationUpdateDtoToPackstation(packstationDTO);
+        const packstation =
+            this.#packstationUpdateDtoToPackstation(packstationDTO);
         const versionStr = `"${packstationDTO.version.toString()}"`;
 
         const versionResult = await this.#service.update({
@@ -77,7 +81,10 @@ export class PackstationMutationResolver {
             version: versionStr,
         });
         // TODO BadUserInputError
-        this.#logger.debug('updatePackstation: versionResult=%d', versionResult);
+        this.#logger.debug(
+            'updatePackstation: versionResult=%d',
+            versionResult,
+        );
         const payload: UpdatePayload = { version: versionResult };
         return payload;
     }
@@ -88,22 +95,24 @@ export class PackstationMutationResolver {
         const idStr = id.id;
         this.#logger.debug('delete: id=%s', idStr);
         const deletePerformed = await this.#service.delete(idStr);
-        this.#logger.debug('deletePackstation: deletePerformed=%s', deletePerformed);
+        this.#logger.debug(
+            'deletePackstation: deletePerformed=%s',
+            deletePerformed,
+        );
         return deletePerformed;
     }
-
 
     #packstationDtoToPackstation(packstationDTO: PackstationDTO): Packstation {
         const adresseDTO = packstationDTO.adresse;
         const adresse: Adresse = {
             id: undefined,
-            strasse: adresseDTO.atrasse,
+            strasse: adresseDTO.strasse,
             hausnummer: adresseDTO.hausnummer,
             postleitzahl: adresseDTO.postleitzahl,
             stadt: adresseDTO.stadt,
             packstation: undefined,
         };
-        const pakete = packstationDTO.abbildungen?.map((paketDTO) => {
+        const pakete = packstationDTO.pakete?.map((paketDTO) => {
             const paket: Paket = {
                 id: undefined,
                 nummer: paketDTO.nummer,
@@ -128,7 +137,9 @@ export class PackstationMutationResolver {
         return packstation;
     }
 
-    #packstationUpdateDtoToPackstation(packstationDTO: PackstationUpdateDTO): Packstation {
+    #packstationUpdateDtoToPackstation(
+        packstationDTO: PackstationUpdateDTO,
+    ): Packstation {
         return {
             id: undefined,
             version: undefined,
@@ -140,5 +151,4 @@ export class PackstationMutationResolver {
             aktualisiert: new Date(),
         };
     }
-
 }
