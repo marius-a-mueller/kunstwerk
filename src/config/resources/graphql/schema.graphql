@@ -1,4 +1,3 @@
-
 schema {
   query: Query
   mutation: Mutation
@@ -28,14 +27,14 @@ type Mutation {
 type Adresse {
   strasse: String
   hausnummer: String
-  postleitzahl: number
-  stadt: string
+  postleitzahl: String
+  stadt: String
 }
 
 "Daten zum Paket einer Packstation"
 type Paket {
-  nummer: string
-  maxGewichtInKg: number
+  nummer: String
+  maxGewichtInKg: Float
 }
 
 "Datenschema zu einer Paketstation, die gelesen wird"
@@ -43,11 +42,10 @@ type Packstation {
   # ID ist bei Apollo ein String
   id: Int!
   version: Int!
-  nummer: string!
-  baudatum: number
+  nummer: String!
+  baudatum: String
   # 1:1-Beziehung
   adresse: Adresse!
-
 }
 
 "Suchkriterien für Packstationen"
@@ -59,24 +57,23 @@ input SuchkriterienInput {
 input AdresseInput {
   strasse: String
   hausnummer: String
-  postleitzahl: number
-  stadt: string
+  postleitzahl: String
+  stadt: String
 }
 
 "Daten zu den Paketen einer Packstation"
 input PaketInput {
- nummer: string
-  maxGewichtInKg: number
+  nummer: String
+  maxGewichtInKg: Float
 }
 
 "Daten für eine neue Packstation"
 input PackstationInput {
-   id: Int!
+  id: Int!
   version: Int!
-  nummer: string!
-  baudatum: number
+  nummer: String!
+  baudatum: String
   adresse: AdresseInput
-
 }
 
 type CreatePayload {
@@ -85,10 +82,10 @@ type CreatePayload {
 
 "Daten für eine zu ändernde Packstation"
 input PackstationUpdateInput {
- id: Int!
+  id: Int!
   version: Int!
-  nummer: string!
-  baudatum: number
+  nummer: String!
+  baudatum: String
 }
 
 type UpdatePayload {
