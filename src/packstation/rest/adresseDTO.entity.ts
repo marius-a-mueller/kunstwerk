@@ -17,14 +17,17 @@ export class AdresseDTO {
     @ApiProperty({ example: 'Die Straße', type: String })
     readonly strasse!: string;
 
+    @Matches('^\\d.*')
     @MaxLength(40)
     @ApiProperty({ example: 'Die Hausnummer', type: String })
     readonly hausnummer!: string;
 
+    @Matches('^\\d.*')
     @MaxLength(10)
     @ApiProperty({ example: 'Die Postleitzahl', type: String })
     readonly postleitzahl!: string;
 
+    @Matches('^\\w.*')
     @IsOptional()
     @MaxLength(40)
     @ApiProperty({ example: 'Die Stadt', type: String })
