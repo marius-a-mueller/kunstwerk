@@ -25,5 +25,5 @@ export class Paket {
 
     @ManyToOne(() => Packstation, (packstation) => packstation.pakete)
     @JoinColumn({ name: 'packstation_id' })
-    readonly packstation: Packstation | undefined;
+    packstation: Packstation | undefined;
 }

@@ -26,5 +26,5 @@ export class Adresse {
 
     @OneToOne(() => Packstation, (packstation) => packstation.adresse)
     @JoinColumn({ name: 'packstation_id' })
-    readonly packstation: Packstation | undefined;
+    packstation: Packstation | undefined;
 }

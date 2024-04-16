@@ -1,20 +1,3 @@
-/*
- * Copyright (C) 2021 - present Juergen Zimmermann, Hochschule Karlsruhe
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
 /**
  * Das Modul besteht aus der Controller-Klasse für Schreiben an der REST-Schnittstelle.
  * @packageDocumentation
@@ -48,12 +31,15 @@ import {
     UseGuards,
     UseInterceptors,
 } from '@nestjs/common';
-import { type Adresse } from '../entity/adresse.entity.js';
-import { PackstationDTO, PackstationDtoOhneRef } from './packstationDTO.entity.js';
+import {
+    PackstationDTO,
+    PackstationDtoOhneRef,
+} from './packstationDTO.entity.js';
 import { Request, Response } from 'express';
-import { type Paket } from '../entity/paket.entity.js';
-import { Packstation } from '../entity/packstation.entity.js';
+import { type Adresse } from '../entity/adresse.entity.js';
+import { type Packstation } from '../entity/packstation.entity.js';
 import { PackstationWriteService } from '../service/packstation-write.service.js';
+import { type Paket } from '../entity/paket.entity.js';
 import { ResponseTimeInterceptor } from '../../logger/response-time.interceptor.js';
 import { getBaseUri } from './getBaseUri.js';
 import { getLogger } from '../../logger/logger.js';
@@ -183,8 +169,13 @@ export class PackstationWriteController {
                 .send(msg);
         }
 
-        const packstation = this.#packstationDtoOhneRefToPackstation(packstationDTO);
-        const neueVersion = await this.#service.update({ id, packstation, version });
+        const packstation =
+            this.#packstationDtoOhneRefToPackstation(packstationDTO);
+        const neueVersion = await this.#service.update({
+            id,
+            packstation,
+            version,
+        });
         this.#logger.debug('put: version=%d', neueVersion);
         return res.header('ETag', `"${neueVersion}"`).send();
     }
@@ -219,28 +210,32 @@ export class PackstationWriteController {
             stadt: adresseDTO.stadt,
             packstation: undefined,
         };
-        const pakete = PackstationDTO.pakete?.map((paketDTO) => {
-            const paket: Paket = {
-                id: undefined,
-                nummer: paketDTO.nummer,
-                maxGewichtInKg: paketDTO.maxGewichtInKg,
-                packstation: undefined,
-            };
-            return pakete;
-        });
+        const pakete: Paket[] | undefined = packstationDTO.pakete?.map(
+            (paketDTO) => {
+                const paket: Paket = {
+                    id: undefined,
+                    nummer: paketDTO.nummer,
+                    maxGewichtInKg: paketDTO.maxGewichtInKg,
+                    packstation: undefined,
+                };
+                return paket;
+            },
+        );
         const packstation = {
             id: undefined,
             version: undefined,
             nummer: packstationDTO.nummer,
             baudatum: packstationDTO.baudatum,
+            adresse,
+            pakete,
             erzeugt: new Date(),
             aktualisiert: new Date(),
         };
 
         // Rueckwaertsverweise
         packstation.adresse.packstation = packstation;
-        packstation.pakete?.forEach((pakete) => {
-            pakete.packstation = packstation;
+        packstation.pakete?.forEach((paket) => {
+            paket.packstation = packstation;
         });
         return packstation;
     }
@@ -253,8 +248,8 @@ export class PackstationWriteController {
             version: undefined,
             nummer: packstationDTO.nummer,
             baudatum: packstationDTO.baudatum,
-            titel: undefined,
-            abbildungen: undefined,
+            adresse: undefined,
+            pakete: undefined,
             erzeugt: undefined,
             aktualisiert: new Date(),
         };
