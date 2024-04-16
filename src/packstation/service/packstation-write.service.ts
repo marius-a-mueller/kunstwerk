@@ -6,7 +6,7 @@
 import { type DeleteResult, Repository } from 'typeorm';
 import {
     PackstationNotFoundException,
-    PackstationNummerInvalidException,
+    PackstationNummerExistsException,
     VersionInvalidException,
     VersionOutdatedException,
 } from './exception.js';
@@ -137,7 +137,7 @@ export class PackstationWriteService {
     async #validateCreate({ nummer }: Packstation): Promise<undefined> {
         this.#logger.debug('#validateCreate: nummer=%s', nummer);
         if (await this.#repo.existsBy({ nummer })) {
-            throw new PackstationNummerInvalidException(nummer);
+            throw new PackstationNummerExistsException(nummer);
         }
     }
 
