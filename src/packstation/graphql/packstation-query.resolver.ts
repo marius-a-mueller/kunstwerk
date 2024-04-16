@@ -1,13 +1,12 @@
-
-import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
+import { Args, Query, Resolver } from '@nestjs/graphql';
 import { UseFilters, UseInterceptors } from '@nestjs/common';
-import { Packstation } from '../entity/packstation.entity.js';
 import { HttpExceptionFilter } from './http-exception.filter.js';
+import { Packstation } from '../entity/packstation.entity.js';
+import { PackstationReadService } from '../service/packstation-read.service.js';
 import { Public } from 'nest-keycloak-connect';
 import { ResponseTimeInterceptor } from '../../logger/response-time.interceptor.js';
 import { type Suchkriterien } from '../service/suchkriterien.js';
 import { getLogger } from '../../logger/logger.js';
-import { Adresse } from '../entity/adresse.entity';
 
 export interface IdInput {
     readonly id: number;
@@ -40,7 +39,7 @@ export class PackstationQueryResolver {
             this.#logger.debug(
                 'findById: packstation=%s, adresse=%o',
                 packstation.toString(),
-                packstation.Adresse,
+                packstation.adresse,
             );
         }
         return packstation;
@@ -51,8 +50,7 @@ export class PackstationQueryResolver {
     async find(@Args() input: SuchkriterienInput | undefined) {
         this.#logger.debug('find: input=%o', input);
         const packstationen = await this.#service.find(input?.suchkriterien);
-        this.#logger.debug('find: buecher=%o', packstationen);
+        this.#logger.debug('find: packstationen=%o', packstationen);
         return packstationen;
     }
-
 }
