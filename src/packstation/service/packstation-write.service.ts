@@ -9,15 +9,15 @@ import {
     PackstationNotFoundException,
     VersionInvalidException,
     VersionOutdatedException,
-} from './exception';
-import { Adresse } from '../entity/adresse.entity';
+} from './exception.js';
+import { Adresse } from '../entity/adresse.entity.js';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-import { MailService } from '../../mail/mail.service';
-import { Packstation } from '../entity/packstation.entity';
-import { PackstationReadService } from './packstation-read.service';
-import { Paket } from '../entity/paket.entity';
-import { getLogger } from '../../logger/logger';
+import { MailService } from '../../mail/mail.service.js';
+import { Packstation } from '../entity/packstation.entity.js';
+import { PackstationReadService } from './packstation-read.service.js';
+import { Paket } from '../entity/paket.entity.js';
+import { getLogger } from '../../logger/logger.js';
 export interface UpdateParams {
     readonly id: number | undefined;
     readonly packstation: Packstation;

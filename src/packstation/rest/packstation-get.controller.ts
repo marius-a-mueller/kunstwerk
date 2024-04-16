@@ -67,7 +67,7 @@ export type PackstationModel = Omit<
     Packstation,
     'pakete' | 'aktualisiert' | 'erzeugt' | 'id' | 'adresse' | 'version'
 > & {
-    adresse: AdresseModel | undefined;
+    adresse: AdresseModel;
     // eslint-disable-next-line @typescript-eslint/naming-convention
     _links: Links;
 };
@@ -274,14 +274,12 @@ export class PackstationGetController {
             packstation,
             links,
         );
-        const adresseModel = packstation.adresse
-            ? {
-                  strasse: packstation.adresse.strasse ?? 'N/A',
-                  hausnummer: packstation.adresse.hausnummer ?? 'N/A',
-                  postleitzahl: packstation.adresse.postleitzahl ?? 'N/A',
-                  stadt: packstation.adresse.stadt ?? 'N/A',
-              }
-            : undefined;
+        const adresseModel: AdresseModel = {
+            strasse: packstation.adresse?.strasse ?? 'N/A',
+            hausnummer: packstation.adresse?.hausnummer ?? 'N/A',
+            postleitzahl: packstation.adresse?.postleitzahl ?? 'N/A',
+            stadt: packstation.adresse?.stadt ?? 'N/A',
+        };
         const packstationModel: PackstationModel &
             Omit<
                 Packstation,

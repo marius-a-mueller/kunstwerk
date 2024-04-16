@@ -32,7 +32,7 @@ export class PackstationDtoOhneRef {
     @IsISO8601({ strict: true })
     @IsOptional()
     @ApiProperty({ example: '2021-06-01' })
-    readonly baudatum: Date | string | undefined;
+    readonly baudatum: Date | undefined;
 }
 
 /**

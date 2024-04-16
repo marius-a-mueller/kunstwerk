@@ -16,7 +16,7 @@ import {
 import { Adresse } from './adresse.entity.js';
 import { ApiProperty } from '@nestjs/swagger';
 import { Paket } from './paket.entity.js';
-import { dbType } from '../../config/db';
+import { dbType } from '../../config/db.js';
 
 @Entity()
 export class Packstation {
