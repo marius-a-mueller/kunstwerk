@@ -15,13 +15,6 @@ import { getLogger } from '../../logger/logger.js';
 
 // Authentifizierung und Autorisierung durch
 //  GraphQL Shield
-//      https://www.graphql-shield.com
-//      https://github.com/maticzav/graphql-shield
-//      https://github.com/nestjs/graphql/issues/92
-//      https://github.com/maticzav/graphql-shield/issues/213
-//  GraphQL AuthZ
-//      https://github.com/AstrumU/graphql-authz
-//      https://www.the-guild.dev/blog/graphql-authz
 
 export interface CreatePayload {
     readonly id: number;
@@ -40,7 +33,6 @@ export class PackstationUpdateDTO extends PackstationDTO {
     readonly version!: number;
 }
 @Resolver()
-// alternativ: globale Aktivierung der Guards https://docs.nestjs.com/security/authorization#basic-rbac-implementation
 @UseGuards(AuthGuard)
 @UseFilters(HttpExceptionFilter)
 @UseInterceptors(ResponseTimeInterceptor)
