@@ -81,7 +81,7 @@ export class QueryBuilder {
      * @param stadt Stadt der Packstation
      * @returns QueryBuilder
      */
-    // eslint-disable-next-line max-lines-per-function
+    // eslint-disable-next-line max-lines-per-function, sonarjs/cognitive-complexity
     build({
         nummer,
         baudatumVon,
@@ -146,17 +146,26 @@ export class QueryBuilder {
             useWhere = false;
         }
 
-        const paketeBedingung = `SIZE(${this.#packstationAlias}.pakete) > 0`;
-        queryBuilder = useWhere
-            ? queryBuilder.where(paketeBedingung)
-            : queryBuilder.andWhere(paketeBedingung);
-        queryBuilder = queryBuilder.where(
-            `${this.#adresseAlias}.stadt = :stadt`,
-            {
-                stadt,
-            },
-        );
-        useWhere = false;
+        if (hatPakete !== undefined) {
+            queryBuilder = useWhere
+                ? queryBuilder.where(
+                      `${this.#paketAlias}.id IS ${hatPakete ? 'NOT' : ''} NULL`,
+                  )
+                : queryBuilder.andWhere(
+                      `${this.#paketAlias}.id IS ${hatPakete ? 'NOT' : ''} NULL`,
+                  );
+            useWhere = false;
+        }
+
+        if (stadt !== undefined) {
+            queryBuilder = queryBuilder.where(
+                `${this.#adresseAlias}.stadt = :stadt`,
+                {
+                    stadt,
+                },
+            );
+            useWhere = false;
+        }
 
         this.#logger.debug('build: sql=%s', queryBuilder.getSql());
         return queryBuilder;
