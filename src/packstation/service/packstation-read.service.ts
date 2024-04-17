@@ -22,6 +22,7 @@ export class PackstationReadService {
     static readonly ID_PATTERN = /^[1-9]\d{0,10}$/u;
 
     readonly #packstationProps: string[];
+    readonly #allowedSearchCriteria: string[];
 
     readonly #queryBuilder: QueryBuilder;
 
@@ -31,6 +32,8 @@ export class PackstationReadService {
         const packstationDummy = new Packstation();
         this.#packstationProps = Object.getOwnPropertyNames(packstationDummy);
         this.#queryBuilder = queryBuilder;
+
+        this.#allowedSearchCriteria = [...this.#packstationProps, 'stadt'];
     }
 
     // TODO Mit Paketen implementieren
@@ -88,7 +91,7 @@ export class PackstationReadService {
     #checkKeys(keys: string[]): boolean {
         let validKeys = true;
         keys.forEach((key) => {
-            if (!this.#packstationProps.includes(key)) {
+            if (!this.#allowedSearchCriteria.includes(key)) {
                 this.#logger.debug(
                     '#checkKeys: ungueltiges Suchkriterium "%s"',
                     key,
