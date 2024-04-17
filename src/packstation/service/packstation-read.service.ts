@@ -15,6 +15,8 @@ import { getLogger } from '../../logger/logger.js';
 export interface FindByIdParams {
     /** ID des gesuchten Pakets */
     readonly id: number;
+    // Sollen die Pakete mitgeladen werden?
+    readonly mitPaketen?: boolean;
 }
 
 @Injectable()
@@ -37,10 +39,12 @@ export class PackstationReadService {
     }
 
     // TODO Mit Paketen implementieren
-    async findById({ id }: FindByIdParams) {
+    async findById({ id, mitPaketen = false }: FindByIdParams) {
         this.#logger.debug('findById: id=%d', id);
 
-        const packstation = await this.#queryBuilder.buildId({ id }).getOne();
+        const packstation = await this.#queryBuilder
+            .buildId({ id, mitPaketen })
+            .getOne();
         if (packstation === null) {
             throw new NotFoundException(
                 `Es gibt keine Packstation mit der ID ${id}.`,
@@ -52,6 +56,9 @@ export class PackstationReadService {
             packstation.toString(),
             packstation.nummer,
         );
+        if (mitPaketen) {
+            this.#logger.debug('findById: pakete=%o', packstation.pakete);
+        }
         return packstation;
     }
 
