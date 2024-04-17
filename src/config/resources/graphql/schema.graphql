@@ -69,11 +69,10 @@ input PaketInput {
 
 "Daten für eine neue Packstation"
 input PackstationInput {
-  id: Int!
-  version: Int!
   nummer: String!
   baudatum: String
-  adresse: AdresseInput
+  adresse: AdresseInput!
+  pakete: [PaketInput]
 }
 
 type CreatePayload {
