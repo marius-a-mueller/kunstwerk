@@ -15,6 +15,8 @@ import { getLogger } from '../../logger/logger.js';
 export interface FindByIdParams {
     /** ID des gesuchten Pakets */
     readonly id: number;
+    // Sollen die Pakete mitgeladen werden?
+    readonly mitPaketen?: boolean;
 }
 
 @Injectable()
@@ -22,6 +24,7 @@ export class PackstationReadService {
     static readonly ID_PATTERN = /^[1-9]\d{0,10}$/u;
 
     readonly #packstationProps: string[];
+    readonly #allowedSearchCriteria: string[];
 
     readonly #queryBuilder: QueryBuilder;
 
@@ -31,13 +34,17 @@ export class PackstationReadService {
         const packstationDummy = new Packstation();
         this.#packstationProps = Object.getOwnPropertyNames(packstationDummy);
         this.#queryBuilder = queryBuilder;
+
+        this.#allowedSearchCriteria = [...this.#packstationProps, 'stadt'];
     }
 
     // TODO Mit Paketen implementieren
-    async findById({ id }: FindByIdParams) {
+    async findById({ id, mitPaketen = false }: FindByIdParams) {
         this.#logger.debug('findById: id=%d', id);
 
-        const packstation = await this.#queryBuilder.buildId({ id }).getOne();
+        const packstation = await this.#queryBuilder
+            .buildId({ id, mitPaketen })
+            .getOne();
         if (packstation === null) {
             throw new NotFoundException(
                 `Es gibt keine Packstation mit der ID ${id}.`,
@@ -49,6 +56,9 @@ export class PackstationReadService {
             packstation.toString(),
             packstation.nummer,
         );
+        if (mitPaketen) {
+            this.#logger.debug('findById: pakete=%o', packstation.pakete);
+        }
         return packstation;
     }
 
@@ -88,7 +98,7 @@ export class PackstationReadService {
     #checkKeys(keys: string[]): boolean {
         let validKeys = true;
         keys.forEach((key) => {
-            if (!this.#packstationProps.includes(key)) {
+            if (!this.#allowedSearchCriteria.includes(key)) {
                 this.#logger.debug(
                     '#checkKeys: ungueltiges Suchkriterium "%s"',
                     key,

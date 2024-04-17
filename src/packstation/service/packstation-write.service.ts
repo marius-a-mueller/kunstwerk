@@ -106,7 +106,10 @@ export class PackstationWriteService {
      */
     async delete(id: number): Promise<boolean> {
         this.#logger.debug('delete: id=%d', id);
-        const packstation = await this.#readService.findById({ id });
+        const packstation = await this.#readService.findById({
+            id,
+            mitPaketen: true,
+        });
 
         let deleteResult: DeleteResult | undefined;
         await this.#repo.manager.transaction(async (transactionalMgr) => {
