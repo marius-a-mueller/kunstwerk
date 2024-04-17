@@ -81,19 +81,12 @@ export class QueryBuilder {
      * @param stadt Stadt der Packstation
      * @returns QueryBuilder
      */
-    // eslint-disable-next-line max-lines-per-function, sonarjs/cognitive-complexity
-    build({
-        nummer,
-        baudatumVon,
-        baudatumBis,
-        hatPakete,
-        stadt,
-    }: Suchkriterien) {
+    // eslint-disable-next-line max-lines-per-function,
+    build({ nummer, baudatum, hatPakete, stadt }: Suchkriterien) {
         this.#logger.debug(
-            'build: nummer=%s, baudatumVon=%o, baudatumBis=%o, hatPakete=%s, stadt=%s',
+            'build: nummer=%s, baudatum=%o, hatPakete=%s, stadt=%s',
             nummer,
-            baudatumVon,
-            baudatumBis,
+            baudatum,
             hatPakete,
             stadt,
         );
@@ -120,28 +113,15 @@ export class QueryBuilder {
             useWhere = false;
         }
 
-        if (baudatumVon !== undefined) {
+        if (baudatum !== undefined) {
             queryBuilder = useWhere
                 ? queryBuilder.where(
-                      `${this.#packstationAlias}.baudatum >= :baudatumVon`,
-                      { baudatumVon },
+                      `${this.#packstationAlias}.baudatum = :baudatum`,
+                      { baudatum },
                   )
                 : queryBuilder.andWhere(
-                      `${this.#packstationAlias}.baudatum >= :baudatumVon`,
-                      { baudatumVon },
-                  );
-            useWhere = false;
-        }
-
-        if (baudatumBis !== undefined) {
-            queryBuilder = useWhere
-                ? queryBuilder.where(
-                      `${this.#packstationAlias}.baudatum <= :baudatumBis`,
-                      { baudatumBis },
-                  )
-                : queryBuilder.andWhere(
-                      `${this.#packstationAlias}.baudatum <= :baudatumBis`,
-                      { baudatumBis },
+                      `${this.#packstationAlias}.baudatum = :baudatum`,
+                      { baudatum },
                   );
             useWhere = false;
         }

@@ -5,8 +5,7 @@
 
 export interface Suchkriterien {
     readonly nummer?: string;
-    readonly baudatumVon?: Date;
-    readonly baudatumBis?: Date;
+    readonly baudatum?: Date;
     readonly hatPakete?: boolean;
     readonly stadt?: string;
 }
