@@ -27,4 +27,13 @@ export class Adresse {
     @OneToOne(() => Packstation, (packstation) => packstation.adresse)
     @JoinColumn({ name: 'packstation_id' })
     packstation: Packstation | undefined;
+
+    public toString = (): string =>
+        JSON.stringify({
+            id: this.id,
+            strasse: this.strasse,
+            hausnummer: this.hausnummer,
+            postleitzahl: this.postleitzahl,
+            stadt: this.stadt,
+        });
 }
