@@ -7,7 +7,7 @@ import { config } from './app.js';
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const dbConfig = config.db;
 
-type DbType = 'postgres' | 'mysql' | 'oracle' | 'sqlite';
+type DbType = 'postgres' | 'sqlite';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const type: DbType | undefined = dbConfig?.type;
