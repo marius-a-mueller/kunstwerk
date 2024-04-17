@@ -26,4 +26,11 @@ export class Paket {
     @ManyToOne(() => Packstation, (packstation) => packstation.pakete)
     @JoinColumn({ name: 'packstation_id' })
     packstation: Packstation | undefined;
+
+    public toString = (): string =>
+        JSON.stringify({
+            id: this.id,
+            nummer: this.nummer,
+            maxGewichtInKg: this.maxGewichtInKg,
+        });
 }
