@@ -58,12 +58,12 @@ input AdresseInput {
   strasse: String
   hausnummer: String
   postleitzahl: String
-  stadt: String
+  stadt: String!
 }
 
 "Daten zu den Paketen einer Packstation"
 input PaketInput {
-  nummer: String
+  nummer: String!
   maxGewichtInKg: Float
 }
 
@@ -72,7 +72,7 @@ input PackstationInput {
   nummer: String!
   baudatum: String
   adresse: AdresseInput!
-  pakete: [PaketInput]
+  pakete: [PaketInput!]
 }
 
 type CreatePayload {
@@ -81,7 +81,7 @@ type CreatePayload {
 
 "Daten für eine zu ändernde Packstation"
 input PackstationUpdateInput {
-  id: Int!
+  id: ID!
   version: Int!
   nummer: String!
   baudatum: String
