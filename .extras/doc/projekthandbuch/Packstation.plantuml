@@ -1,0 +1,57 @@
+' Preview durch <Alt>d
+
+@startuml Entity
+
+package typeorm {
+  class "@Entity" as Entity
+  hide Entity circle
+  class "@Column" as Column
+  hide Column circle
+  class "@PrimaryColumn" as PrimaryColumn
+  hide PrimaryColumn circle
+  class "@OneToMany" as OneToMany
+  hide OneToMany circle
+  class "@JoinColumn" as JoinColumn
+  hide JoinColumn circle
+  class "@ManyToOne" as ManyToOne
+  hide ManyToOne circle
+  class "@CreateDateColumn" as CreateDateColumn
+  hide CreateDateColumn circle
+  class "@UpdateDateColumn" as UpdateDateColumn
+  hide UpdateDateColumn circle
+}
+
+package packstation.entity {
+
+  class Packstation <<entity>> <<@Entity>> {
+    @Column() @PrimaryColumn() readonly id: number
+    @Column() readonly version: number
+    @Column() readonly nummer: string
+    @Column() readonly baudatum: Date
+    @CreateDateColumn() readonly erzeugt: Date
+    @UpdateDateColumn() readonly aktualisiert: Date
+  }
+
+  class Adresse <<entity>> <<@Entity>> {
+    @Column() @PrimaryColumn() readonly id: number
+    @Column() readonly strasse?: string
+    @Column() readonly hausnummer?: string
+    @Column() readonly postleitzahl?: string
+    @Column() readonly stadt: string
+  }
+
+  class Abbildung <<entity>> <<@Entity>> {
+    @Column() @PrimaryColumn() readonly id: number
+    @Column() readonly nummer: string
+    @Column() readonly maxGewichtInKg?: number
+  }
+
+  Packstation *--> "1" Adresse : @OneToOne() \nadresse
+  Packstation *--> "*" Paket : @OneToMany() \npakete
+
+  Packstation .right.> Entity
+}
+
+hide empty members
+
+@enduml

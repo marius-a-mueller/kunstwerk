@@ -24,4 +24,5 @@
     "titleBar.inactiveBackground": "#40514E",
     "titleBar.inactiveForeground": "#11999E"
   },
+  "asciidoc.antora.enableAntoraSupport": false,
 }

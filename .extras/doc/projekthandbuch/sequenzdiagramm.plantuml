@@ -1,0 +1,13 @@
+@startuml Sequenzdiagramm
+
+actor Gast
+
+boundary PackstationGetController
+control PackstationReadService
+database packstation
+
+Gast -> PackstationGetController : GET / getById()
+PackstationGetController -> PackstationReadService: findById()
+PackstationReadService -> packstation: [TypeORM]
+
+@enduml

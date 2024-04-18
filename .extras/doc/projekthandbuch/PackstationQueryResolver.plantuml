@@ -1,0 +1,61 @@
+@startuml Controller-Klasse
+
+interface Promise<T>
+
+package @nestjs/graphql {
+  class "@Resolver" as Resolver
+  hide Resolver circle
+
+  class "@UseInterceptors" as UseInterceptors
+  hide UseInterceptors circle
+
+  class "@Query" as Query
+  hide Query circle
+
+  class "@Args" as Args
+  hide Args circle
+
+  Resolver .left[hidden].> Promise
+}
+
+package packstation {
+  package entity {
+    class Packstation <<entity>>
+  }
+
+  package service {
+    class PackstationReadService << control >>
+  }
+
+  package graphql #DDDDDD {
+    class "type PackstationDTO = Omit<Packstation, 'pakete' | 'aktualisiert' | 'erzeugt'" as PackstationDTO
+    hide PackstationDTO circle
+
+    interface IdInput {
+        id: number
+    }
+
+    class PackstationQueryResolver << control >> << @Resolver() >> << @UseInterceptors() >> {
+      + @Query() async packstation(@Args() id: IdInput): Promise<PackstationDTO>
+      + @Query() async packstationen(@Args() titel: string | undefined): Promise<PackstationDTO[]>
+    }
+
+    PackstationQueryResolver o-up-> "1" PackstationReadService : service
+    PackstationQueryResolver ..> PackstationDTO
+    PackstationQueryResolver ..> IdInput
+    PackstationDTO ..> Packstation
+    PackstationQueryResolver ..> Resolver
+
+    PackstationQueryResolver ..> Promise
+
+    PackstationDTO .[hidden].> Packstation
+    Packstation .[hidden].> Promise
+    PackstationReadService .[hidden].> Promise
+    Packstation .[hidden].> Resolver
+    PackstationReadService .[hidden].> Resolver
+  }
+}
+
+hide empty members
+
+@enduml

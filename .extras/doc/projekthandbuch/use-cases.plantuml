@@ -1,0 +1,18 @@
+@startuml Use Cases
+
+actor Gast
+actor Admin
+actor Kunde
+
+rectangle packstation {
+    Gast --> (Packstation suchen)
+    Admin --> (Packstation suchen)
+    Admin --> (Packstation anlegen)
+    Admin --> (Packstation ändern)
+    Admin --> (Packstation löschen)
+    Kunde --> (Packstation suchen)
+    Kunde --> (Packstation anlegen)
+    Kunde --> (Packstation ändern)
+}
+
+@enduml

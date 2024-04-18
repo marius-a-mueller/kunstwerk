@@ -1,0 +1,69 @@
+@startuml Anwendungskern
+
+interface Promise<T>
+
+package @nestjs/common {
+  class "@Injectable" as Injectable
+  hide Injectable circle
+}
+
+package typeorm {
+  class Repository<T>
+}
+
+package @nestjs/typeorm {
+  class "@InjectRepository" as InjectRepository
+  hide InjectRepository circle
+}
+
+package mail {
+  class MailService
+}
+
+package packstation {
+  package entity {
+    class Packstation
+  }
+
+  package service #DDDDDD {
+    class PackstationInvalid
+    class AdresseExists
+    class NummerExists
+    class VersionInvalid
+    class VersionOutdated
+
+    class PackstationWriteService << control >> <<@Injectable()>> {
+      + async create(packstation: Packstation): Promise<string|PackstationInvalid|AdresseExists|NummerExists>
+      + async update(id: number, packstation: Packstation, version: string): Promise<number|PackstationInvalid|AdresseExists|NummerExists|VersionInvalid|VersionOutdated>
+      + async delete(id: number): Promise<boolean>
+    }
+
+    PackstationWriteService o--> "1" PackstationValidationService: validationService
+    PackstationWriteService o--> "1" PackstationReadService: readService
+    PackstationWriteService o--> "1" Repository: @InjectRepository repo
+    PackstationWriteService o--> "1" MailService: mailService
+
+    PackstationWriteService .up.> Injectable
+    PackstationWriteService .up.> InjectRepository
+
+    PackstationWriteService .up.> Promise
+    PackstationWriteService ..> Packstation
+    PackstationWriteService .up.> PackstationInvalid
+    PackstationWriteService .up.> NummerExists
+    PackstationWriteService .up.> AdresseExists
+    PackstationWriteService .up.> VersionInvalid
+    PackstationWriteService .up.> VersionOutdated
+
+    PackstationInvalid .up[hidden].> Packstation
+    Packstation .up[hidden].> Promise
+    Packstation .up[hidden].> Injectable
+    Packstation .up[hidden].> InjectRepository
+    AdresseExists .up[hidden].> Packstation
+    PackstationValidationService .[hidden].> Repository
+    PackstationValidationService .[hidden].> MailService
+  }
+}
+
+hide empty members
+
+@enduml
