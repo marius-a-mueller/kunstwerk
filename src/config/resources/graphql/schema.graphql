@@ -50,7 +50,9 @@ type Packstation {
 
 "Suchkriterien für Packstationen"
 input SuchkriterienInput {
-  baudatum: String
+  nummer: String
+  hatPakete: Boolean
+  stadt: String
 }
 
 "Daten zur Adresse einer neuen Packstation"
