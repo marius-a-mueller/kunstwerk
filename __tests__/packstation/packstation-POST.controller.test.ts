@@ -9,23 +9,23 @@ import {
 } from '../testserver.js';
 import { type ErrorResponse } from './error-response.js';
 import { HttpStatus } from '@nestjs/common';
-import { type PackstationDTO } from '../../src/packstation/rest/PackstationDTO.entity.js';
+import { type PackstationDTO } from '../../src/packstation/rest/packstationDTO.entity.js';
 import { PackstationReadService } from '../../src/packstation/service/packstation-read.service.js';
 import { loginRest } from '../login.js';
 
 // ------------------------ T e s t d a t e n ------------------------
 const neuePackstation: PackstationDTO = {
-    nummer: '302',
-    baudatum: '2022-02-28',
+    nummer: '565',
+    baudatum: '2022-01-31',
     adresse: {
-        strasse: 'Musterstraße',
-        hausnummer: '16A',
-        postleitzahl: '76133',
+        strasse: 'Moltkestr.',
+        hausnummer: '54',
         stadt: 'Karlsruhe',
+        postleitzahl: '76133',
     },
     pakete: [
         {
-            nummer: '72803942304234',
+            nummer: '239087423504',
             maxGewichtInKg: 5,
         },
     ],
@@ -115,9 +115,9 @@ describe('POST /rest', () => {
         const token = await loginRest(client);
         headers.Authorization = `Bearer ${token}`;
         const expectedMsg = [
-            expect.stringMatching(/^nummer /u),
             expect.stringMatching(/^baudatum /u),
-            expect.stringMatching(/^adresse.stadt /u),
+            expect.stringMatching(/^adresse.strasse /u),
+            expect.stringMatching(/^adresse.postleitzahl /u),
         ];
 
         // when
@@ -157,7 +157,7 @@ describe('POST /rest', () => {
 
         const { message, statusCode } = data;
 
-        expect(message).toEqual(expect.stringContaining('ISBN'));
+        expect(message).toEqual(expect.stringContaining('Packstationsnummer'));
         expect(statusCode).toBe(HttpStatus.UNPROCESSABLE_ENTITY);
     });
 
@@ -187,6 +187,4 @@ describe('POST /rest', () => {
         // then
         expect(response.status).toBe(HttpStatus.UNAUTHORIZED);
     });
-
-    test.todo('Abgelaufener Token');
 });

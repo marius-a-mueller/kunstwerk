@@ -18,7 +18,7 @@ import { loginGraphQL } from '../login.js';
 export type GraphQLQuery = Pick<GraphQLRequest, 'query'>;
 
 // ------------------------ T e s t d a t e n ------------------------
-const idLoeschen = '60';
+const idLoeschen = '6';
 
 // ------------------------ T e s t s --------------------------------
 // Test-Suite
@@ -48,25 +48,22 @@ describe('GraphQL Mutations', () => {
         const authorization = { Authorization: `Bearer ${token}` }; // eslint-disable-line @typescript-eslint/naming-convention
         const body: GraphQLQuery = {
             query: `
-                mutation {
-                    create(
-                        input: {
-                            nummer: "761",
-                            baudatum: "2022-02-28",
-                            adresse: {
-                                strasse: "Requeststr.",
-                                hausnummer: "18a"
-                                postleitzahl: "45123"
-                                stadt: "GraphQL-City"
-                            },
-                            pakete: [{
-                                nummer: "304028309472",
-                            }]
-                        }
-                    ) {
-                        id
-                    }
+            mutation {
+                create(
+                  input: {
+                      nummer: "178",
+                      baudatum: "2036-01-01",
+                      adresse: {
+                          strasse: "Kriegsstraße",
+                          hausnummer: "23",
+                          postleitzahl: "76133",
+                          stadt: "Karlsruhe"
+                      }
+                  }
+                ) {
+                    id
                 }
+              }
             `,
         };
 
@@ -109,8 +106,13 @@ describe('GraphQL Mutations', () => {
             `,
         };
         const expectedMsg = [
-            expect.stringMatching(/^nummer /u),
             expect.stringMatching(/^baudatum /u),
+            expect.stringMatching(/^adresse.stadt /u),
+            expect.stringMatching(/^adresse.strasse /u),
+            expect.stringMatching(/^adresse.strasse /u),
+            expect.stringMatching(/^adresse.hausnummer /u),
+            expect.stringMatching(/^adresse.postleitzahl /u),
+            expect.stringMatching(/^adresse.postleitzahl /u),
             expect.stringMatching(/^adresse.stadt /u),
         ];
 
@@ -146,18 +148,18 @@ describe('GraphQL Mutations', () => {
         const authorization = { Authorization: `Bearer ${token}` }; // eslint-disable-line @typescript-eslint/naming-convention
         const body: GraphQLQuery = {
             query: `
-                mutation {
-                    update(
-                        input: {
-                            id: "40",
-                            version: 0,
-                            nummer: "123",
-                            baudatum: "2021-04-04",
-                        }
-                    ) {
-                        version
-                    }
+            mutation {
+                update(
+                  input: {
+                      id: "4",
+                      version: 0,
+                      nummer: "239",
+                      baudatum: "2023-01-01",
+                  }
+                ) {
+                    version
                 }
+              }
             `,
         };
 
@@ -198,10 +200,7 @@ describe('GraphQL Mutations', () => {
                 }
             `,
         };
-        const expectedMsg = [
-            expect.stringMatching(/^nummer /u),
-            expect.stringMatching(/^baudatum /u),
-        ];
+        const expectedMsg = [expect.stringMatching(/^baudatum /u)];
 
         // when
         const { status, headers, data }: AxiosResponse<GraphQLResponseBody> =

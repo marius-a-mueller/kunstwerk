@@ -9,26 +9,25 @@ import {
 } from '../testserver.js';
 import { type ErrorResponse } from './error-response.js';
 import { HttpStatus } from '@nestjs/common';
-import { type PackstationDtoOhneRef } from '../../src/packstation/rest/PackstationDTO.entity.js';
+import { type PackstationDtoOhneRef } from '../../src/packstation/rest/packstationDTO.entity.js';
 import { loginRest } from '../login.js';
 
 // ------------------------ T e s t d a t e n ------------------------
 const geaendertePackstation: PackstationDtoOhneRef = {
-    nummer: '123',
+    nummer: '43',
     baudatum: '2022-03-03',
 };
-const idVorhanden = '30';
+const idVorhanden = '3';
 
 const geaendertePackstationIdNichtVorhanden: PackstationDtoOhneRef = {
-    nummer: '123',
+    nummer: '011',
     baudatum: '2022-02-04',
 };
 const idNichtVorhanden = '777777';
 
 const geaendertePackstationInvalid: Record<string, unknown> = {
-    isbn: 'falsch',
-    baudatum: '12345-123-123',
-    adresse: '?!',
+    nummer: 'asddf3',
+    baudatum: '21242432-02-04',
 };
 
 const veraltePackstation: PackstationDtoOhneRef = {
@@ -104,10 +103,7 @@ describe('PUT /rest/:id', () => {
         const token = await loginRest(client);
         headers.Authorization = `Bearer ${token}`;
         headers['If-Match'] = '"0"';
-        const expectedMsg = [
-            expect.stringMatching(/^nummer /u),
-            expect.stringMatching(/^baudatum /u),
-        ];
+        const expectedMsg = [expect.stringMatching(/^baudatum /u)];
 
         // when
         const { status, data }: AxiosResponse<Record<string, any>> =

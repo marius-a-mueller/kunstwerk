@@ -37,7 +37,7 @@ type Paket {
   maxGewichtInKg: Float
 }
 
-"Datenschema zu einer Paketstation, die gelesen wird"
+"Datenschema zu einer Packstation, die gelesen wird"
 type Packstation {
   # ID ist bei Apollo ein String
   id: Int!

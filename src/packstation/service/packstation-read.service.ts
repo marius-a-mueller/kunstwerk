@@ -83,11 +83,9 @@ export class PackstationReadService {
             .build(suchkriterien)
             .getMany();
         if (packstationen.length === 0) {
-            this.#logger.debug('find: Keine Paketstationen gefunden');
+            this.#logger.debug('find: Keine Packstationen gefunden');
             throw new NotFoundException(
-                `Keine Paketstationen  gefunden${JSON.stringify(
-                    suchkriterien,
-                )}`,
+                `Keine Packstationen gefunden: ${JSON.stringify(suchkriterien)}`,
             );
         }
 

@@ -16,7 +16,6 @@ export class PaketDTO {
     @ApiProperty({ example: 'Die Nummer', type: String })
     readonly nummer!: string;
 
-    @MaxLength(16)
     @ApiProperty({ example: '8.5', type: Number })
     readonly maxGewichtInKg!: number;
 }

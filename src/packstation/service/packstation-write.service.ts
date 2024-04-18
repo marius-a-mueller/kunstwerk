@@ -18,6 +18,7 @@ import { Packstation } from '../entity/packstation.entity.js';
 import { PackstationReadService } from './packstation-read.service.js';
 import { Paket } from '../entity/paket.entity.js';
 import { getLogger } from '../../logger/logger.js';
+
 export interface UpdateParams {
     readonly id: number | undefined;
     readonly packstation: Packstation;
@@ -90,8 +91,8 @@ export class PackstationWriteService {
 
         const packstationNeu: Packstation = validateResult;
         const merged: Packstation = this.#repo.merge(
-            packstation,
             packstationNeu,
+            packstation,
         );
         this.#logger.debug('update: merged=%o', merged);
         const updated: Packstation = await this.#repo.save(merged);

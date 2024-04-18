@@ -11,6 +11,7 @@ import { Paket } from '../entity/paket.entity.js';
 import { Repository } from 'typeorm';
 import { type Suchkriterien } from './suchkriterien.js';
 import { getLogger } from '../../logger/logger.js';
+import { typeOrmModuleOptions } from '../../config/typeormOptions.js';
 
 /** Typdefinitionen für die Suche mit der Packstation-ID. */
 export interface BuildIdParams {
@@ -81,7 +82,7 @@ export class QueryBuilder {
      * @param stadt Stadt der Packstation
      * @returns QueryBuilder
      */
-    // eslint-disable-next-line max-lines-per-function,
+    // eslint-disable-next-line max-lines-per-function,, sonarjs/cognitive-complexity
     build({ nummer, baudatum, hatPakete, stadt }: Suchkriterien) {
         this.#logger.debug(
             'build: nummer=%s, baudatum=%o, hatPakete=%s, stadt=%s',
@@ -113,7 +114,7 @@ export class QueryBuilder {
             useWhere = false;
         }
 
-        if (baudatum !== undefined) {
+        if (baudatum !== undefined && typeof baudatum === 'string') {
             queryBuilder = useWhere
                 ? queryBuilder.where(
                       `${this.#packstationAlias}.baudatum = :baudatum`,
@@ -137,11 +138,13 @@ export class QueryBuilder {
             useWhere = false;
         }
 
-        if (stadt !== undefined) {
+        if (stadt !== undefined && typeof stadt === 'string') {
+            const ilike =
+                typeOrmModuleOptions.type === 'postgres' ? 'ilike' : 'like';
             queryBuilder = queryBuilder.where(
-                `${this.#adresseAlias}.stadt = :stadt`,
+                `${this.#adresseAlias}.stadt ${ilike} :stadt`,
                 {
-                    stadt,
+                    stadt: `%${stadt}%`,
                 },
             );
             useWhere = false;

@@ -32,8 +32,8 @@ type PackstationDTO = Omit<
 // ------------------------ T e s t d a t e n ------------------------
 const idVorhanden = '1';
 
-const stadtVorhanden = 'Freiburg';
-const teilStadtVorhanden = 'arl';
+const stadtVorhanden = 'Mannheim';
+const teilStadtVorhanden = 'ann';
 const teilStadtNichtVorhanden = 'abc';
 
 const nummerVorhanden = '123';
@@ -251,7 +251,7 @@ describe('GraphQL Queries', () => {
 
         expect(message).toMatch(/^Keine Packstationen gefunden:/u);
         expect(path).toBeDefined();
-        expect(path![0]).toBe('packstatione');
+        expect(path![0]).toBe('packstationen');
         expect(extensions).toBeDefined();
         expect(extensions!.code).toBe('BAD_USER_INPUT');
     });
