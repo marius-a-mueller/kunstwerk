@@ -1,7 +1,5 @@
 # Hinweise zum Programmierbeispiel
 
-[![Board Status](https://dev.azure.com/marius0138/af3d67cd-67ec-4c1f-bb3b-1f7512840b55/4b345401-70a8-4018-8a96-c46a35b9134f/_apis/work/boardbadge/00f36c63-b5fa-4283-bf73-c3ea9cead766)](https://dev.azure.com/marius0138/af3d67cd-67ec-4c1f-bb3b-1f7512840b55/_boards/board/t/4b345401-70a8-4018-8a96-c46a35b9134f/Microsoft.RequirementCategory/)
-
 <!--
   Copyright (C) 2020 - present Juergen Zimmermann, Hochschule Karlsruhe
 
