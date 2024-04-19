@@ -1,4 +1,4 @@
-# Compose-Datei fuer Windows
+# Compose-Datei fuer Mac
 
 # Aufruf:   docker compose [-f compose.yml -f compose.distroless.yml|compose.wolfi.yml] up
 #           docker compose exec packstation bash   # Bookworm
@@ -10,11 +10,13 @@
 #             cat /etc/os-release
 #           docker compose down
 
+# https://docs.docker.com/compose/compose-file
 include:
-  - path: ./db/postgres/compose.yml
-  - path: ./keycloak/compose.yml
-  - path: ./fakesmtp/compose.yml
+  - path: ./db/postgres/compose.mac.yml
+  - path: ./keycloak/compose.mac.yml
+  - path: ./fakesmtp/compose.mac.yml
 
+# https://docs.docker.com/compose/compose-file/05-services
 services:
   packstation:
     image: team1/packstation:2024.04.0-bookworm
@@ -47,6 +49,7 @@ services:
       #  target: /opt/app/dist/config/resources/db/sqlite/packstation.sqlite
     env_file: app.env
     environment:
+      # https://docs.docker.com/compose/compose-file/compose-file-v3/#variable-substitution
       - USER_PASSWORD_ENCODED=$$argon2i$$v=19$$m=4096,t=3,p=1$$aaxA2v/9rRSPGkwYN+NQog$$27Huii1XtD3iEd62fog+04G26LRPZMHoYCI6AGKTL8M
     #hostname: packstation
     cap_drop: [ALL]
