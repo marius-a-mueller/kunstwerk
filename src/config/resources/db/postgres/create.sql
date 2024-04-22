@@ -7,10 +7,6 @@
 --  WHERE    schemaname = 'packstation'
 --  ORDER BY tablename, indexname;
 
--- https://www.postgresql.org/docs/devel/app-psql.html
--- https://www.postgresql.org/docs/current/ddl-schemas.html
--- https://www.postgresql.org/docs/current/ddl-schemas.html#DDL-SCHEMAS-CREATE
--- "user-private schema" (Default-Schema: public)
 CREATE SCHEMA IF NOT EXISTS AUTHORIZATION packstation;
 
 ALTER ROLE packstation SET search_path = 'packstation';
@@ -20,6 +16,7 @@ CREATE TABLE IF NOT EXISTS packstation (
     version           integer NOT NULL DEFAULT 0,
     nummer            varchar(30) NOT NULL UNIQUE USING INDEX TABLESPACE packstationspace,
     baudatum          date,
+    ausstattung       varchar(64),
     erzeugt           timestamp NOT NULL DEFAULT NOW(),
     aktualisiert      timestamp NOT NULL DEFAULT NOW()
 ) TABLESPACE packstationspace;
