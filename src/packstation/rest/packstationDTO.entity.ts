@@ -37,7 +37,7 @@ export class PackstationDtoOhneRef {
 
     @IsOptional()
     @ArrayUnique()
-    @ApiProperty({ example: ['JAVASCRIPT', 'TYPESCRIPT'] })
+    @ApiProperty({ example: ['BILDSCHIRM', 'BLUETOOTH'] })
     readonly ausstattung: string[] | undefined;
 }
 
