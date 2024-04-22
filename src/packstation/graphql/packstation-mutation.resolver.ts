@@ -52,7 +52,6 @@ export class PackstationMutationResolver {
 
         const packstation = this.#packstationDtoToPackstation(packstationDTO);
         const id = await this.#service.create(packstation);
-        // TODO BadUserInputError
         this.#logger.debug('createPackstation: id=%d', id);
         const payload: CreatePayload = { id };
         return payload;
@@ -72,7 +71,6 @@ export class PackstationMutationResolver {
             packstation,
             version: versionStr,
         });
-        // TODO BadUserInputError
         this.#logger.debug(
             'updatePackstation: versionResult=%d',
             versionResult,
