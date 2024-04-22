@@ -53,6 +53,7 @@ describe('GraphQL Mutations', () => {
                   input: {
                       nummer: "178",
                       baudatum: "2036-01-01",
+                      ausstattung: ["BILDSCHIRM", "BLUETOOTH"],
                       adresse: {
                           strasse: "Kriegsstraße",
                           hausnummer: "23",
@@ -155,6 +156,7 @@ describe('GraphQL Mutations', () => {
                       version: 0,
                       nummer: "239",
                       baudatum: "2023-01-01",
+                      ausstattung: ["BILDSCHIRM", "BLUETOOTH"],
                   }
                 ) {
                     version
@@ -193,6 +195,7 @@ describe('GraphQL Mutations', () => {
                             version: 0,
                             nummer: "falsch",
                             baudatum: "12345-123-123",
+                            ausstattung: ["BILDSCHIRM", "BLUETOOTH"],
                         }
                     ) {
                         version
@@ -239,6 +242,7 @@ describe('GraphQL Mutations', () => {
                             version: 0,
                             nummer: "472",
                             baudatum: "2021-01-02",
+                            ausstattung: ["BILDSCHIRM", "BLUETOOTH"],
                         }
                     ) {
                         version
