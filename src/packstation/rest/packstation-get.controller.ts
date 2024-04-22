@@ -101,6 +101,12 @@ export class PackstationQuery implements Suchkriterien {
     readonly baudatumBis?: Date;
 
     @ApiProperty({ required: false })
+    declare readonly bildschirm: string;
+
+    @ApiProperty({ required: false })
+    declare readonly bluetooth: string;
+
+    @ApiProperty({ required: false })
     readonly hatPakete?: boolean;
 
     @ApiProperty({ required: false })
