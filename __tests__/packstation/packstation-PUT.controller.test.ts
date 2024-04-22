@@ -16,12 +16,14 @@ import { loginRest } from '../login.js';
 const geaendertePackstation: PackstationDtoOhneRef = {
     nummer: '43',
     baudatum: '2022-03-03',
+    ausstattung: ['BLUETOOTH'],
 };
 const idVorhanden = '3';
 
 const geaendertePackstationIdNichtVorhanden: PackstationDtoOhneRef = {
     nummer: '011',
     baudatum: '2022-02-04',
+    ausstattung: ['BLUETOOTH'],
 };
 const idNichtVorhanden = '777777';
 
@@ -33,6 +35,7 @@ const geaendertePackstationInvalid: Record<string, unknown> = {
 const veraltePackstation: PackstationDtoOhneRef = {
     nummer: '123',
     baudatum: '2022-02-04',
+    ausstattung: ['BLUETOOTH'],
 };
 
 // ------------------------ T e s t s --------------------------------

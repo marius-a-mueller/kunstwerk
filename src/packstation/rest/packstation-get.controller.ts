@@ -101,6 +101,12 @@ export class PackstationQuery implements Suchkriterien {
     readonly baudatumBis?: Date;
 
     @ApiProperty({ required: false })
+    declare readonly bildschirm: string;
+
+    @ApiProperty({ required: false })
+    declare readonly bluetooth: string;
+
+    @ApiProperty({ required: false })
     readonly hatPakete?: boolean;
 
     @ApiProperty({ required: false })
@@ -214,10 +220,10 @@ export class PackstationGetController {
      * des Response ist das JSON-Array mit den gefundenen Packstationen, die jeweils
      * um Atom-Links für HATEOAS ergänzt sind.
      *
-     * Falls es keine Packstation zu den Suchkriterien gibt, wird der Statuscode `404`
+     * Falls es keine passenden Packstationen gibt, wird der Statuscode `404`
      * (`Not Found`) gesetzt.
      *
-     * Falls es keine Query-Parameter gibt, werden alle Packstationen ermittelt.
+     * Ohne Query-Parameter, werden alle Packstationen ermittelt.
      *
      * @param query Query-Parameter von Express.
      * @param req Request-Objekt von Express.
@@ -292,6 +298,7 @@ export class PackstationGetController {
             > = {
             nummer: packstation.nummer,
             baudatum: packstation.baudatum,
+            ausstattung: packstation.ausstattung,
             adresse: adresseModel,
             _links: links,
         };

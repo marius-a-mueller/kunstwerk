@@ -1,16 +1,16 @@
 -- Einfügen der Daten in die Tabelle 'packstation'
-INSERT INTO packstation (id, version, nummer, baudatum, erzeugt, aktualisiert) VALUES
-(1, 0, '143', '2016-01-01 00:00:00', '2016-01-01 00:00:00', '2016-01-01 00:00:00');
-INSERT INTO packstation (id, version, nummer, baudatum, erzeugt, aktualisiert) VALUES
-(2, 0, '123', '2016-01-01 00:00:00', '2016-01-01 00:00:00', '2016-01-01 00:00:00');
-INSERT INTO packstation (id, version, nummer, baudatum, erzeugt, aktualisiert) VALUES
-(3, 0, '43', '2016-01-01 00:00:00', '2016-01-01 00:00:00', '2016-01-01 00:00:00');
-INSERT INTO packstation (id, version, nummer, baudatum, erzeugt, aktualisiert) VALUES
-(4, 0, '239', '2017-01-01 00:00:00', '2017-01-01 00:00:00', '2017-01-01 00:00:00');
-INSERT INTO packstation (id, version, nummer, baudatum, erzeugt, aktualisiert) VALUES
-(5, 0, '566', '2022-01-01 00:00:00', '2022-01-01 00:00:00', '2022-01-01 00:00:00');
-INSERT INTO packstation (id, version, nummer, baudatum, erzeugt, aktualisiert) VALUES
-(6, 0, '324', '2023-01-01 00:00:00', '2023-01-01 00:00:00', '2023-01-01 00:00:00');
+INSERT INTO packstation (id, version, nummer, baudatum, ausstattung, erzeugt, aktualisiert) VALUES
+(1, 0, '143', '2016-01-01 00:00:00', 'BILDSCHIRM', '2016-01-01 00:00:00', '2016-01-01 00:00:00');
+INSERT INTO packstation (id, version, nummer, baudatum, ausstattung, erzeugt, aktualisiert) VALUES
+(2, 0, '123', '2016-01-01 00:00:00', 'BILDSCHIRM', '2016-01-01 00:00:00', '2016-01-01 00:00:00');
+INSERT INTO packstation (id, version, nummer, baudatum, ausstattung, erzeugt, aktualisiert) VALUES
+(3, 0, '43', '2016-01-01 00:00:00', 'BILDSCHIRM,BLUETOOTH', '2016-01-01 00:00:00', '2016-01-01 00:00:00');
+INSERT INTO packstation (id, version, nummer, baudatum, ausstattung, erzeugt, aktualisiert) VALUES
+(4, 0, '239', '2017-01-01 00:00:00', null, '2017-01-01 00:00:00', '2017-01-01 00:00:00');
+INSERT INTO packstation (id, version, nummer, baudatum, ausstattung, erzeugt, aktualisiert) VALUES
+(5, 0, '566', '2022-01-01 00:00:00', 'BLUETOOTH', '2022-01-01 00:00:00', '2022-01-01 00:00:00');
+INSERT INTO packstation (id, version, nummer, baudatum, ausstattung, erzeugt, aktualisiert) VALUES
+(6, 0, '324', '2023-01-01 00:00:00', 'BILDSCHIRM', '2023-01-01 00:00:00', '2023-01-01 00:00:00');
 
 -- Einfügen der Daten in die Tabelle 'adresse'
 INSERT INTO adresse (id, strasse, hausnummer, postleitzahl, stadt, packstation_id) VALUES

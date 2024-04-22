@@ -17,6 +17,7 @@ import { loginRest } from '../login.js';
 const neuePackstation: PackstationDTO = {
     nummer: '565',
     baudatum: '2022-01-31',
+    ausstattung: ['BILDSCHIRM', 'BLUETOOTH'],
     adresse: {
         strasse: 'Moltkestr.',
         hausnummer: '54',
@@ -43,6 +44,7 @@ const neuePackstationInvalid: Record<string, unknown> = {
 const neuePackstationNummerExistiert: PackstationDTO = {
     nummer: '123',
     baudatum: '2022-02-28',
+    ausstattung: ['BILDSCHIRM', 'BLUETOOTH'],
     adresse: {
         strasse: 'Musterstraße',
         hausnummer: '16A',

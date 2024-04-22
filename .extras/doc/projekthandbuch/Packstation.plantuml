@@ -28,6 +28,7 @@ package packstation.entity {
     @Column() readonly version: number
     @Column() readonly nummer: string
     @Column() readonly baudatum: Date
+    @Column() readonly ausstattung?: string
     @CreateDateColumn() readonly erzeugt: Date
     @UpdateDateColumn() readonly aktualisiert: Date
   }

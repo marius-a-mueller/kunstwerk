@@ -71,6 +71,7 @@ describe('GraphQL Queries', () => {
                         version
                         nummer
                         baudatum
+                        ausstattung
                         adresse {
                             stadt
                         }

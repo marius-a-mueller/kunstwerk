@@ -44,6 +44,7 @@ type Packstation {
   version: Int!
   nummer: String!
   baudatum: String
+  ausstattung: [String]
   # 1:1-Beziehung
   adresse: Adresse!
 }
@@ -73,6 +74,7 @@ input PaketInput {
 input PackstationInput {
   nummer: String!
   baudatum: String
+  ausstattung: [String]
   adresse: AdresseInput!
   pakete: [PaketInput!]
 }
@@ -87,6 +89,7 @@ input PackstationUpdateInput {
   version: Int!
   nummer: String!
   baudatum: String
+  ausstattung: [String]
 }
 
 type UpdatePayload {

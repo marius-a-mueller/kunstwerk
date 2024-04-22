@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS packstation (
     version           INTEGER NOT NULL DEFAULT 0,
     nummer            TEXT NOT NULL UNIQUE,
     baudatum          TEXT,
+    ausstattung       TEXT,
     erzeugt           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     aktualisiert      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

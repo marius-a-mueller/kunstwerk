@@ -1,3 +1,5 @@
+// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 /**
  * Das Modul besteht aus der Klasse {@linkcode QueryBuilder} für Packstationen.
  * @packageDocumentation
@@ -79,15 +81,28 @@ export class QueryBuilder {
     /**
      * Packstationen asynchron suchen.
      * @param nummer Nummer der gesuchten Packstation
+     * @param baudatum Baudatum der Packstation
+     * @param bildschirm Bildschirm vorhanden
+     * @param bluetooth Bluetooth vorhanden
+     * @param hatPakete Pakete vorhanden
      * @param stadt Stadt der Packstation
      * @returns QueryBuilder
      */
-    // eslint-disable-next-line max-lines-per-function,, sonarjs/cognitive-complexity
-    build({ nummer, baudatum, hatPakete, stadt }: Suchkriterien) {
+    // eslint-disable-next-line max-lines-per-function,, sonarjs/cognitive-complexity, max-statements
+    build({
+        nummer,
+        baudatum,
+        bildschirm,
+        bluetooth,
+        hatPakete,
+        stadt,
+    }: Suchkriterien) {
         this.#logger.debug(
-            'build: nummer=%s, baudatum=%o, hatPakete=%s, stadt=%s',
+            'build: nummer=%s, baudatum=%o, bildschirm=%s, bluetooth=%s, hatPakete=%s, stadt=%s',
             nummer,
             baudatum,
+            bildschirm,
+            bluetooth,
             hatPakete,
             stadt,
         );
@@ -105,6 +120,28 @@ export class QueryBuilder {
         );
 
         let useWhere = true; // Steuert, ob 'where' oder 'andWhere' verwendet wird
+
+        if (bildschirm === 'true') {
+            queryBuilder = useWhere
+                ? queryBuilder.where(
+                      `${this.#packstationAlias}.ausstattung like '%BILDSCHIRM%'`,
+                  )
+                : queryBuilder.andWhere(
+                      `${this.#packstationAlias}.ausstattung like '%BILDSCHIRM%'`,
+                  );
+            useWhere = false;
+        }
+
+        if (bluetooth === 'true') {
+            queryBuilder = useWhere
+                ? queryBuilder.where(
+                      `${this.#packstationAlias}.ausstattung like '%BLUETOOTH%'`,
+                  )
+                : queryBuilder.andWhere(
+                      `${this.#packstationAlias}.ausstattung like '%BLUETOOTH%'`,
+                  );
+            useWhere = false;
+        }
 
         if (nummer !== undefined) {
             queryBuilder = queryBuilder.where(

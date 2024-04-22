@@ -38,7 +38,6 @@ export class PackstationReadService {
         this.#allowedSearchCriteria = [...this.#packstationProps, 'stadt'];
     }
 
-    // TODO Mit Paketen implementieren
     async findById({ id, mitPaketen = false }: FindByIdParams) {
         this.#logger.debug('findById: id=%d', id);
 
@@ -49,6 +48,9 @@ export class PackstationReadService {
             throw new NotFoundException(
                 `Es gibt keine Packstation mit der ID ${id}.`,
             );
+        }
+        if (packstation.ausstattung === null) {
+            packstation.ausstattung = [];
         }
 
         this.#logger.debug(
@@ -74,7 +76,6 @@ export class PackstationReadService {
             return this.#queryBuilder.build(suchkriterien).getMany();
         }
 
-        // Falsche Namen für Suchkriterien?
         if (!this.#checkKeys(keys)) {
             throw new NotFoundException('Ungueltige Suchkriterien');
         }
@@ -88,6 +89,11 @@ export class PackstationReadService {
                 `Keine Packstationen gefunden: ${JSON.stringify(suchkriterien)}`,
             );
         }
+        packstationen.forEach((packstation) => {
+            if (packstation.ausstattung === null) {
+                packstation.ausstattung = [];
+            }
+        });
 
         this.#logger.debug('find: packstationen=%o', packstationen);
         return packstationen;
@@ -96,7 +102,11 @@ export class PackstationReadService {
     #checkKeys(keys: string[]): boolean {
         let validKeys = true;
         keys.forEach((key) => {
-            if (!this.#allowedSearchCriteria.includes(key)) {
+            if (
+                !this.#allowedSearchCriteria.includes(key) &&
+                key !== 'bildschirm' &&
+                key !== 'bluetooth'
+            ) {
                 this.#logger.debug(
                     '#checkKeys: ungueltiges Suchkriterium "%s"',
                     key,

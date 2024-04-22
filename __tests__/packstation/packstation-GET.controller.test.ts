@@ -1,3 +1,5 @@
+// eslint-disable-next-line @eslint-community/eslint-comments/disable-enable-pair
+/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable no-underscore-dangle */
 
 import { afterAll, beforeAll, describe, test } from '@jest/globals';
@@ -16,6 +18,7 @@ import { type PackstationenModel } from '../../src/packstation/rest/packstation-
 // ------------------------ T e s t d a t e n ------------------------
 const stadtVorhanden = 'a';
 const stadtNichtVorhanden = 'xx';
+const ausstattungVorhanden = 'bildschirm';
 
 // ------------------------ T e s t s --------------------------------
 // Test-Suite
@@ -102,6 +105,33 @@ describe('GET /rest', () => {
 
         expect(error).toBe('Not Found');
         expect(statusCode).toBe(HttpStatus.NOT_FOUND);
+    });
+
+    test('Mindestens eine Packstation mit vorhandener Ausstattung', async () => {
+        // given
+        const params = { [ausstattungVorhanden]: 'true' };
+
+        // when
+        const { status, headers, data }: AxiosResponse<PackstationenModel> =
+            await client.get('/', { params });
+
+        // then
+        expect(status).toBe(HttpStatus.OK);
+        expect(headers['content-type']).toMatch(/json/iu);
+        // JSON-Array mit mind. 1 JSON-Objekt
+        expect(data).toBeDefined();
+
+        const { packstationen } = data._embedded;
+
+        packstationen
+            .map((packstation) => packstation.ausstattung)
+            .forEach((ausstattung) =>
+                expect(ausstattung).toEqual(
+                    expect.arrayContaining([
+                        ausstattungVorhanden.toUpperCase(),
+                    ]),
+                ),
+            );
     });
 
     test('Keine Packstationen zu einer nicht-vorhandenen Property', async () => {
