@@ -6,6 +6,7 @@
  */
 
 import {
+    ArrayUnique,
     IsArray,
     IsISO8601,
     IsOptional,
@@ -33,6 +34,11 @@ export class PackstationDtoOhneRef {
     @IsOptional()
     @ApiProperty({ example: '2021-06-01' })
     readonly baudatum: Date | string | undefined;
+
+    @IsOptional()
+    @ArrayUnique()
+    @ApiProperty({ example: ['JAVASCRIPT', 'TYPESCRIPT'] })
+    readonly ausstattung: string[] | undefined;
 }
 
 /**

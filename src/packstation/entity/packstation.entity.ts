@@ -34,6 +34,9 @@ export class Packstation {
     @ApiProperty({ example: '2021-06-01', type: Date })
     readonly baudatum: Date | string | undefined;
 
+    @Column('simple-array')
+    ausstattung: string[] | undefined | null;
+
     @OneToMany(() => Paket, (paket) => paket.packstation, {
         cascade: ['insert', 'remove'],
     })
@@ -60,6 +63,7 @@ export class Packstation {
             version: this.version,
             nummer: this.nummer,
             baudatum: this.baudatum,
+            ausstattung: this.ausstattung,
             erzeugt: this.erzeugt,
             aktualisiert: this.aktualisiert,
         });
