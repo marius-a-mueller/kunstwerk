@@ -2,7 +2,7 @@
 	"info": {
 		"name": "GraphQL",
 		"description": "GraphQL-Schnittstelle",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -133,10 +133,10 @@
 									"});\r",
 									"pm.test('Body mit den Properties', () => {\r",
 									"    const body = pm.response.json();\r",
-									"    const { buecher } = body.data;\r",
-									"    pm.expect(buecher).to.be.an('array').that.is.not.empty;\r",
-									"    buecher.forEach(buch => {\r",
-									"        const { id, version, art, titel } = buch;\r",
+									"    const { packstationen } = body.data;\r",
+									"    pm.expect(packstationen).to.be.an('array').that.is.not.empty;\r",
+									"    packstationen.forEach(packstation => {\r",
+									"        const { id, version, art, titel } = packstation;\r",
 									"        pm.expect(id).to.be.a('number').that.is.gte(0);\r",
 									"        pm.expect(version).to.be.a('number').that.is.gte(0);\r",
 									"        pm.expect(art).to.be.a('string');\r",
@@ -251,7 +251,7 @@
 									"    const { message, path, extensions } = errors[0];\r",
 									"    pm.expect(message).to.be.a('string').that.includes('titel');\r",
 									"    pm.expect(path).to.be.an('array').that.has.a.lengthOf(1);\r",
-									"    pm.expect(path[0]).to.be.equal('buecher');\r",
+									"    pm.expect(path[0]).to.be.equal('packstationen');\r",
 									"    pm.expect(extensions.code).to.be.equal('BAD_USER_INPUT');\r",
 									"});"
 								],
@@ -275,6 +275,63 @@
 							"graphql": {
 								"query": "query ($stadt: String = \"Nichtvorhanden\") {\r\n  packstationen(suchkriterien: {stadt: $stadt}) {\r\n    stadt\r\n  }\r\n}",
 								"variables": "{\r\n  \"stadt\": \"Nichtvorhanden\"\r\n}"
+							}
+						},
+						"url": {
+							"raw": "{{graphql_url}}",
+							"host": [
+								"{{graphql_url}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Suche ausstattung, stadt von Packstationen mit Teilstring \"ann\" in der Stadt",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Statuscode 200', () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test('Content-Type application/json', () => {\r",
+									"    const { response } = pm;\r",
+									"    const contentType = response.headers.get('Content-Type');\r",
+									"    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
+									"});\r",
+									"pm.test('Body mit ausstattung, titel', () => {\r",
+									"    const body = pm.response.json();\r",
+									"    const { packstationen } = body.data;\r",
+									"    pm.expect(packstationen).to.be.an('array').that.is.not.empty;\r",
+									"    packstationen.forEach(packstation => {\r",
+									"        const { ausstattung, adresse } = packstation;\r",
+									"        pm.expect(ausstattung).to.be.an('array');\r",
+									"        pm.expect(adresse.stadt).to.be.a('string').that.includes('ta');\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query ($stadt: String = \"ann\") {\r\n  packstationen(suchkriterien: {stadt: $stadt}) {\r\n    ausstattung\r\n    adresse {\r\n      stadt\r\n    }\r\n  }\r\n}",
+								"variables": "{\r\n  \"stadt\": \"ann\"\r\n}"
 							}
 						},
 						"url": {
@@ -603,7 +660,7 @@
 						"body": {
 							"mode": "graphql",
 							"graphql": {
-								"query": "mutation {\r\n  update(\r\n    input: {\r\n        id: \"4\",\r\n        version: 0,\r\n        nummer: \"178\",\r\n        baudatum: \"2036-01-01\",\r\n    }\r\n  ) {\r\n      version\r\n  }\r\n}",
+								"query": "mutation {\r\n  update(\r\n    input: {\r\n        id: \"4\",\r\n        version: 0,\r\n        nummer: \"239\",\r\n        baudatum: \"2023-01-01\",\r\n    }\r\n  ) {\r\n      version\r\n  }\r\n}",
 								"variables": ""
 							}
 						},
