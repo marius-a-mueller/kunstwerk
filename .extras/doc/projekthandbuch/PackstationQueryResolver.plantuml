@@ -37,7 +37,7 @@ package packstation {
 
     class PackstationQueryResolver << control >> << @Resolver() >> << @UseInterceptors() >> {
       + @Query() async packstation(@Args() id: IdInput): Promise<PackstationDTO>
-      + @Query() async packstationen(@Args() titel: string | undefined): Promise<PackstationDTO[]>
+      + @Query() async packstationen(@Args() input: string | undefined): Promise<PackstationDTO[]>
     }
 
     PackstationQueryResolver o-up-> "1" PackstationReadService : service

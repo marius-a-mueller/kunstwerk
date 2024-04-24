@@ -26,7 +26,7 @@ type PackstationDTO = Omit<
     Packstation,
     'pakete' | 'aktualisiert' | 'erzeugt'
 > & {
-    rabatt: string;
+    nummer: string;
 };
 
 // ------------------------ T e s t d a t e n ------------------------

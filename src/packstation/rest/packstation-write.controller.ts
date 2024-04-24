@@ -71,7 +71,7 @@ export class PackstationWriteController {
      * dass damit das neu angelegte Packstation abgerufen werden kann.
      *
      * Falls Constraints verletzt sind, wird der Statuscode `400` (`Bad Request`)
-     * gesetzt und genauso auch wenn der Titel oder die ISBN-Nummer bereits
+     * gesetzt und genauso auch wenn die Stadt oder die Packstations-Nummer bereits
      * existieren.
      *
      * @param packstationDTO JSON-Daten für ein Packstation im Request-Body.
@@ -115,10 +115,10 @@ export class PackstationWriteController {
      * Falls die Versionsnummer fehlt, wird der Statuscode `428` (`Precondition
      * required`) gesetzt; und falls sie nicht korrekt ist, der Statuscode `412`
      * (`Precondition failed`). Falls Constraints verletzt sind, wird der
-     * Statuscode `400` (`Bad Request`) gesetzt und genauso auch wenn der neue
-     * Titel oder die neue ISBN-Nummer bereits existieren.
+     * Statuscode `400` (`Bad Request`) gesetzt und genauso auch wenn die neue
+     * Stad oder die neue Packstations-Nummer bereits existieren.
      *
-     * @param packstationDTO Packstationdaten im Body des Request-Objekts.
+     * @param packstationDTO Packstationdtaten im Body des Request-Objekts.
      * @param id Pfad-Paramater für die ID.
      * @param version Versionsnummer aus dem Header _If-Match_.
      * @param res Leeres Response-Objekt von Express.

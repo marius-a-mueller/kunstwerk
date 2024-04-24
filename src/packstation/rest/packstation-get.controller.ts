@@ -196,7 +196,7 @@ export class PackstationGetController {
                 'getById(): packstation=%s',
                 packstation.toString(),
             );
-            this.#logger.debug('getById(): titel=%o', packstation.adresse);
+            this.#logger.debug('getById(): adresse=%o', packstation.adresse);
         }
 
         // ETags

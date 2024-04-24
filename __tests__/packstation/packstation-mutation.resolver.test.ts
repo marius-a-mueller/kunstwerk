@@ -94,7 +94,7 @@ describe('GraphQL Mutations', () => {
                 mutation {
                     create(
                         input: {
-                            nummer: "falsche-ISBN",
+                            nummer: "falsche-Nummer",
                             baudatum: "12345-123-123",
                             adresse: {
                                 stadt: "?!"

@@ -1,927 +1,836 @@
 {
-	"info": {
-		"name": "GraphQL",
-		"description": "GraphQL-Schnittstelle",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Query",
-			"item": [
-				{
-					"name": "Suche Packstation mit ID 1",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Statuscode 200', () => {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"pm.test('Content-Type application/json', () => {\r",
-									"    const { response } = pm;\r",
-									"    const contentType = response.headers.get('Content-Type');\r",
-									"    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
-									"});\r",
-									"pm.test('Body mit den Properties', () => {\r",
-									"    const body = pm.response.json();\r",
-									"    const { packstation } = body.data;\r",
-									"    const {  version,nummer,adresse } = packstation;\r",
-									"    pm.expect(version).to.be.a('number').that.is.gte(0);\r",
-									"    pm.expect(nummer).to.be.a('string');\r",
-									"    pm.expect(adresse.stadt).to.be.a('string');\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "",
-								"value": "",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query ($id: ID! = \"1\") {\r\n  packstation(id: $id) {\r\n    version\r\n    nummer\r\n    baudatum\r\n    adresse{\r\n        strasse\r\n        hausnummer\r\n        postleitzahl\r\n        stadt\r\n    }\r\n  }\r\n}",
-								"variables": "{\r\n  \"id\": \"1\"\r\n}"
-							}
-						},
-						"url": {
-							"raw": "{{graphql_url}}",
-							"host": [
-								"{{graphql_url}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Suche version von einer Packstation mit ID",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Statuscode 200', () => {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"pm.test('Content-Type application/json', () => {\r",
-									"    const { response } = pm;\r",
-									"    const contentType = response.headers.get('Content-Type');\r",
-									"    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
-									"});\r",
-									"pm.test('Body mit den Properties', () => {\r",
-									"    const body = pm.response.json();\r",
-									"    const { packstation } = body.data;\r",
-									"    const {  version } = packstation;\r",
-									"    pm.expect(version).to.be.a('number').that.is.gte(0);\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "",
-								"value": "",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query ($id: ID! = \"1\") {\r\n  packstation(id: $id) {\r\n    version\r\n\r\n  }\r\n}",
-								"variables": "{\r\n  \"id\": \"1\"\r\n}"
-							}
-						},
-						"url": {
-							"raw": "{{graphql_url}}",
-							"host": [
-								"{{graphql_url}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Suche id, version,nummer und adresse von allen Packstationen",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Statuscode 200', () => {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"pm.test('Content-Type application/json', () => {\r",
-									"    const { response } = pm;\r",
-									"    const contentType = response.headers.get('Content-Type');\r",
-									"    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
-									"});\r",
-									"pm.test('Body mit den Properties', () => {\r",
-									"    const body = pm.response.json();\r",
-									"    const { packstationen } = body.data;\r",
-									"    pm.expect(packstationen).to.be.an('array').that.is.not.empty;\r",
-									"    packstationen.forEach(packstation => {\r",
-									"        const { id, version, art, titel } = packstation;\r",
-									"        pm.expect(id).to.be.a('number').that.is.gte(0);\r",
-									"        pm.expect(version).to.be.a('number').that.is.gte(0);\r",
-									"        pm.expect(art).to.be.a('string');\r",
-									"        pm.expect(titel.titel).to.be.a('string');\r",
-									"    });\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "",
-								"value": "",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "{\r\n  packstationen {\r\n    id\r\n    version\r\n    nummer\r\n    adresse {\r\n      stadt\r\n    }\r\n  }\r\n}",
-								"variables": ""
-							}
-						},
-						"url": {
-							"raw": "{{graphql_url}}",
-							"host": [
-								"{{graphql_url}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Suche Packstationen in Karlsruhe",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Statuscode 200', () => {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"pm.test('Content-Type application/json', () => {\r",
-									"    const { response } = pm;\r",
-									"    const contentType = response.headers.get('Content-Type');\r",
-									"    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
-									"});\r",
-									"pm.test('Body mit nummer', () => {\r",
-									"    const body = pm.response.json();\r",
-									"    const { packstationen } = body.data;\r",
-									"    pm.expect(packstationen).to.be.an('array').that.is.not.empty;\r",
-									"    packstationen.map(packstation => packstation.nummer)\r",
-									"        .forEach(nummer => pm.expect(nummer).to.be.a('string'));\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "",
-								"value": "",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query ($stadt: String = \"Karlsruhe\") {\r\n  packstationen(suchkriterien: {stadt: $stadt}) {\r\n    nummer\r\n  }\r\n}",
-								"variables": "{\r\n  \"stadt\": \"Karlsruhe\"\r\n}"
-							}
-						},
-						"url": {
-							"raw": "{{graphql_url}}",
-							"host": [
-								"{{graphql_url}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Suche von Packstationen mit nicht-vorhandener Stadt",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Statuscode 200', () => {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"pm.test('Content-Type application/json', () => {\r",
-									"    const { response } = pm;\r",
-									"    const contentType = response.headers.get('Content-Type');\r",
-									"    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
-									"});\r",
-									"pm.test('Body mit errors', () => {\r",
-									"    const body = pm.response.json();\r",
-									"    const { errors } = body;\r",
-									"    pm.expect(errors).to.be.an('array').that.has.a.lengthOf(1);\r",
-									"    const { message, path, extensions } = errors[0];\r",
-									"    pm.expect(message).to.be.a('string').that.includes('titel');\r",
-									"    pm.expect(path).to.be.an('array').that.has.a.lengthOf(1);\r",
-									"    pm.expect(path[0]).to.be.equal('packstationen');\r",
-									"    pm.expect(extensions.code).to.be.equal('BAD_USER_INPUT');\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "",
-								"value": "",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query ($stadt: String = \"Nichtvorhanden\") {\r\n  packstationen(suchkriterien: {stadt: $stadt}) {\r\n    stadt\r\n  }\r\n}",
-								"variables": "{\r\n  \"stadt\": \"Nichtvorhanden\"\r\n}"
-							}
-						},
-						"url": {
-							"raw": "{{graphql_url}}",
-							"host": [
-								"{{graphql_url}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Suche ausstattung, stadt von Packstationen mit Teilstring \"ann\" in der Stadt",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Statuscode 200', () => {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"pm.test('Content-Type application/json', () => {\r",
-									"    const { response } = pm;\r",
-									"    const contentType = response.headers.get('Content-Type');\r",
-									"    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
-									"});\r",
-									"pm.test('Body mit ausstattung, titel', () => {\r",
-									"    const body = pm.response.json();\r",
-									"    const { packstationen } = body.data;\r",
-									"    pm.expect(packstationen).to.be.an('array').that.is.not.empty;\r",
-									"    packstationen.forEach(packstation => {\r",
-									"        const { ausstattung, adresse } = packstation;\r",
-									"        pm.expect(ausstattung).to.be.an('array');\r",
-									"        pm.expect(adresse.stadt).to.be.a('string').that.includes('ta');\r",
-									"    });\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "",
-								"value": "",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "query ($stadt: String = \"ann\") {\r\n  packstationen(suchkriterien: {stadt: $stadt}) {\r\n    ausstattung\r\n    adresse {\r\n      stadt\r\n    }\r\n  }\r\n}",
-								"variables": "{\r\n  \"stadt\": \"ann\"\r\n}"
-							}
-						},
-						"url": {
-							"raw": "{{graphql_url}}",
-							"host": [
-								"{{graphql_url}}"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"description": "Queries mit der GraphQL-Schnittstelle"
-		},
-		{
-			"name": "Login",
-			"item": [
-				{
-					"name": "Login als admin",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Statuscode 200', () => {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"pm.test('Content-Type application/json', () => {\r",
-									"    const { response } = pm;\r",
-									"    const contentType = response.headers.get('Content-Type');\r",
-									"    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
-									"});\r",
-									"pm.test('Body mit Token', () => {\r",
-									"    const body = pm.response.json();\r",
-									"    const { token } = body.data.login;\r",
-									"    pm.expect(token).to.be.a('string').that.matches(/.+\\..+\\..+/u);\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{TOKEN}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation {\r\n    login(username: \"admin\", password: \"p\") {\r\n        access_token\r\n    }\r\n}",
-								"variables": ""
-							}
-						},
-						"url": {
-							"raw": "{{graphql_url}}",
-							"host": [
-								"{{graphql_url}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login mit falschem Passwort",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Statuscode 200', () => {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"pm.test('Content-Type application/json', () => {\r",
-									"    const { response } = pm;\r",
-									"    const contentType = response.headers.get('Content-Type');\r",
-									"    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
-									"});\r",
-									"pm.test('Body mit Fehlermeldung', () => {\r",
-									"    const body = pm.response.json();\r",
-									"    const { errors } = body;\r",
-									"    pm.expect(errors).to.be.an('array').that.has.a.lengthOf(1);\r",
-									"    const error = errors[0];\r",
-									"    const { message, path, extensions } = error;\r",
-									"    pm.expect(message).to.be.a('string').that.includes('Passwort');\r",
-									"    pm.expect(path).to.be.an('array').that.has.a.lengthOf(1);\r",
-									"    pm.expect(path[0]).to.be.equal('login');\r",
-									"    pm.expect(extensions.code).to.be.equal('BAD_USER_INPUT');\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation {\r\n    login(username: \"admin\", password: \"FALSCH\") {\r\n        access_token\r\n    }\r\n}",
-								"variables": ""
-							}
-						},
-						"url": {
-							"raw": "{{graphql_url}}",
-							"host": [
-								"{{graphql_url}}"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"description": "Login mit der GraphQL-Schnittstelle",
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"packages": {},
-						"exec": [
-							"pm.sendRequest({",
-							"    url: 'https://localhost:3000/graphql',",
-							"    method: 'POST',",
-							"    header: {",
-							"        'Content-Type': 'application/json',",
-							"    },",
-							"    body: JSON.stringify({",
-							"        query: `",
-							"            mutation {",
-							"                login(username: \"admin\", password: \"p\") {",
-							"                    access_token",
-							"                }",
-							"            }",
-							"        `",
-							"    })",
-							"}, (err, res) => {",
-							"    pm.collectionVariables.set('TOKEN', res.json().data.login.access_token);",
-							"});"
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"packages": {},
-						"exec": [
-							""
-						]
-					}
-				}
-			]
-		},
-		{
-			"name": "Mutation",
-			"item": [
-				{
-					"name": "Neue Packstation",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Statuscode 200', () => {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"pm.test('Content-Type application/json', () => {\r",
-									"    const { response } = pm;\r",
-									"    const contentType = response.headers.get('Content-Type');\r",
-									"    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
-									"});\r",
-									"pm.test('Body mit den Properties', () => {\r",
-									"    const body = pm.response.json();\r",
-									"    const { data } = body;\r",
-									"    pm.expect(data.create.id).to.be.a('number').that.is.gte(0);\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "",
-								"value": "",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation {\r\n  create(\r\n    input: {\r\n        nummer: \"178\",\r\n        baudatum: \"2036-01-01\",\r\n        adresse: {\r\n            strasse: \"Kriegsstraße\",\r\n            hausnummer: \"23\",\r\n            postleitzahl: \"76133\",\r\n            stadt: \"Karlsruhe\"\r\n        }\r\n    }\r\n  ) {\r\n      id\r\n  }\r\n}",
-								"variables": ""
-							}
-						},
-						"url": {
-							"raw": "{{graphql_url}}",
-							"host": [
-								"{{graphql_url}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Neue Packstation mit ungültigen Daten",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Statuscode 200', () => {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"pm.test('Content-Type application/json', () => {\r",
-									"    const { response } = pm;\r",
-									"    const contentType = response.headers.get('Content-Type');\r",
-									"    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
-									"});\r",
-									"pm.test('Fehlermeldungen im Response Body', () => {\r",
-									"    const body = pm.response.json();\r",
-									"    const { errors } = body;\r",
-									"    pm.expect(errors).to.be.an('array').that.has.a.lengthOf(1);\r",
-									"    const { message, path, extensions } = errors[0];\r",
-									"    pm.expect(message).to.be.a('string');\r",
-									"    const props = ['adresse.hausnummer', 'adresse.postleitzahl', 'baudatum'];\r",
-									"    props.forEach(prop => pm.expect(message).to.include(prop));\r",
-									"    pm.expect(path).to.be.an('array').that.has.a.lengthOf(1);\r",
-									"    pm.expect(path[0]).to.be.equal('create');\r",
-									"    pm.expect(extensions.code).to.be.equal('BAD_USER_INPUT');\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "",
-								"value": "",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation {\r\n  create(\r\n    input: {\r\n        nummer: \"FALSCH\",\r\n        baudatum: \"FALSCH\",\r\n        adresse: {\r\n            strasse: \"123\",\r\n            hausnummer: \"ABC\",\r\n            postleitzahl: \"ABC\",\r\n            stadt: \"123\"\r\n        }\r\n    }\r\n  ) {\r\n      id\r\n  }\r\n}",
-								"variables": ""
-							}
-						},
-						"url": {
-							"raw": "{{graphql_url}}",
-							"host": [
-								"{{graphql_url}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Packstation mit ID 4 aktualisieren",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Statuscode 200', () => {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"pm.test('Content-Type application/json', () => {\r",
-									"    const { response } = pm;\r",
-									"    const contentType = response.headers.get('Content-Type');\r",
-									"    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
-									"});\r",
-									"pm.test('Body mit aktualisierter Versionsnummer', () => {\r",
-									"    const body = pm.response.json();\r",
-									"    const { data } = body;\r",
-									"    pm.expect(data.update.version).to.be.a('number').that.is.gte(0);\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "",
-								"value": "",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation {\r\n  update(\r\n    input: {\r\n        id: \"4\",\r\n        version: 0,\r\n        nummer: \"239\",\r\n        baudatum: \"2023-01-01\",\r\n    }\r\n  ) {\r\n      version\r\n  }\r\n}",
-								"variables": ""
-							}
-						},
-						"url": {
-							"raw": "{{graphql_url}}",
-							"host": [
-								"{{graphql_url}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Packstation mit ID 4 mit ungültigen Daten aktualisieren",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Statuscode 200', () => {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"pm.test('Content-Type application/json', () => {\r",
-									"    const { response } = pm;\r",
-									"    const contentType = response.headers.get('Content-Type');\r",
-									"    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
-									"});\r",
-									"pm.test('Fehlermeldungen im Response Body', () => {\r",
-									"    const body = pm.response.json();\r",
-									"    const { errors } = body;\r",
-									"    pm.expect(errors).to.be.an('array').that.has.a.lengthOf(1);\r",
-									"    const { message, path, extensions } = errors[0];\r",
-									"    pm.expect(message).to.be.a('string');\r",
-									"    const props = ['baudatum'];\r",
-									"    props.forEach(prop => pm.expect(message).to.include(prop));\r",
-									"    pm.expect(path).to.be.an('array').that.has.a.lengthOf(1);\r",
-									"    pm.expect(path[0]).to.be.equal('update');\r",
-									"    pm.expect(extensions.code).to.be.equal('BAD_USER_INPUT');\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "",
-								"value": "",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation {\r\n  update(\r\n    input: {\r\n        id: \"4\",\r\n        version: 0,\r\n        nummer: \"178\",\r\n        baudatum: \"FALSCH\",\r\n    }\r\n  ) {\r\n      version\r\n  }\r\n}",
-								"variables": ""
-							}
-						},
-						"url": {
-							"raw": "{{graphql_url}}",
-							"host": [
-								"{{graphql_url}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Nicht-Vorhandene Packstation aktualisieren",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Statuscode 200', () => {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"pm.test('Content-Type application/json', () => {\r",
-									"    const { response } = pm;\r",
-									"    const contentType = response.headers.get('Content-Type');\r",
-									"    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
-									"});\r",
-									"pm.test('Fehlermeldungen im Response Body', () => {\r",
-									"    const body = pm.response.json();\r",
-									"    const { errors } = body;\r",
-									"    pm.expect(errors).to.be.an('array').that.has.a.lengthOf(1);\r",
-									"    const { message, path, extensions } = errors[0];\r",
-									"    pm.expect(message).to.be.a('string').that.includes('9999');\r",
-									"    pm.expect(path).to.be.an('array').that.has.a.lengthOf(1);\r",
-									"    pm.expect(path[0]).to.be.equal('update');\r",
-									"    pm.expect(extensions.code).to.be.equal('BAD_USER_INPUT');\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "",
-								"value": "",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation {\r\n  update(\r\n    input: {\r\n        id: \"9999\",\r\n        version: 0,\r\n        nummer: \"178\",\r\n        baudatum: \"2036-01-01\",\r\n    }\r\n  ) {\r\n      version\r\n  }\r\n}",
-								"variables": ""
-							}
-						},
-						"url": {
-							"raw": "{{graphql_url}}",
-							"host": [
-								"{{graphql_url}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Packstation mit ID 6 löschen",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test('Statuscode 200', () => {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"pm.test('Content-Type application/json', () => {\r",
-									"    const { response } = pm;\r",
-									"    const contentType = response.headers.get('Content-Type');\r",
-									"    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
-									"});\r",
-									"pm.test('Body mit den Properties', () => {\r",
-									"    const body = pm.response.json();\r",
-									"    const { data } = body;\r",
-									"    pm.expect(data.delete).to.be.true;\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "",
-								"value": "",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "graphql",
-							"graphql": {
-								"query": "mutation {\r\n  delete(id: \"6\")\r\n}",
-								"variables": ""
-							}
-						},
-						"url": {
-							"raw": "{{graphql_url}}",
-							"host": [
-								"{{graphql_url}}"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"description": "Neuanlegen, Ändern und Löschen mit der GraphQL-Schnittstelle",
-			"auth": {
-				"type": "bearer",
-				"bearer": [
-					{
-						"key": "token",
-						"value": "{{TOKEN}}",
-						"type": "string"
-					}
-				]
-			},
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							"pm.sendRequest({",
-							"    url: 'https://localhost:3000/graphql',",
-							"    method: 'POST',",
-							"    header: {",
-							"        'Content-Type': 'application/json',",
-							"    },",
-							"    body: JSON.stringify({",
-							"        query: `",
-							"            mutation {",
-							"                login(username: \"admin\", password: \"p\") {",
-							"                    access_token",
-							"                }",
-							"            }",
-							"        `",
-							"    })",
-							"}, (err, res) => {",
-							"    pm.collectionVariables.set('TOKEN', res.json().data.login.access_token);",
-							"});"
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
-		}
-	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	],
-	"variable": [
-		{
-			"key": "graphql_url",
-			"value": "{{base_url}}/graphql",
-			"type": "string"
-		},
-		{
-			"key": "TOKEN",
-			"value": "",
-			"type": "string"
-		}
-	]
+  "info": {
+    "_postman_id": "7c75eecf-f0b5-4122-81f9-280bde8681fd",
+    "name": "GraphQL",
+    "description": "GraphQL-Schnittstelle",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "33730032"
+  },
+  "item": [
+    {
+      "name": "Query",
+      "item": [
+        {
+          "name": "Suche Packstation mit ID 1",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Statuscode 200', () => {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test('Content-Type application/json', () => {\r",
+                  "    const { response } = pm;\r",
+                  "    const contentType = response.headers.get('Content-Type');\r",
+                  "    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
+                  "});\r",
+                  "pm.test('Body mit den Properties', () => {\r",
+                  "    const body = pm.response.json();\r",
+                  "    const { packstation } = body.data;\r",
+                  "    const {  version,nummer,adresse } = packstation;\r",
+                  "    pm.expect(version).to.be.a('number').that.is.gte(0);\r",
+                  "    pm.expect(nummer).to.be.a('string');\r",
+                  "    pm.expect(adresse.stadt).to.be.a('string');\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query ($id: ID! = \"1\") {\r\n  packstation(id: $id) {\r\n    version\r\n    nummer\r\n    baudatum\r\n    adresse{\r\n        strasse\r\n        hausnummer\r\n        postleitzahl\r\n        stadt\r\n    }\r\n  }\r\n}",
+                "variables": "{\r\n  \"id\": \"1\"\r\n}"
+              }
+            },
+            "url": {
+              "raw": "{{graphql_url}}",
+              "host": ["{{graphql_url}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Suche version von einer Packstation mit ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Statuscode 200', () => {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test('Content-Type application/json', () => {\r",
+                  "    const { response } = pm;\r",
+                  "    const contentType = response.headers.get('Content-Type');\r",
+                  "    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
+                  "});\r",
+                  "pm.test('Body mit den Properties', () => {\r",
+                  "    const body = pm.response.json();\r",
+                  "    const { packstation } = body.data;\r",
+                  "    const {  version } = packstation;\r",
+                  "    pm.expect(version).to.be.a('number').that.is.gte(0);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query ($id: ID! = \"1\") {\r\n  packstation(id: $id) {\r\n    version\r\n\r\n  }\r\n}",
+                "variables": "{\r\n  \"id\": \"1\"\r\n}"
+              }
+            },
+            "url": {
+              "raw": "{{graphql_url}}",
+              "host": ["{{graphql_url}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Suche id, version,nummer und adresse von allen Packstationen",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Statuscode 200', () => {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test('Content-Type application/json', () => {\r",
+                  "    const { response } = pm;\r",
+                  "    const contentType = response.headers.get('Content-Type');\r",
+                  "    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
+                  "});\r",
+                  "pm.test('Body mit den Properties', () => {\r",
+                  "    const body = pm.response.json();\r",
+                  "    const { packstationen } = body.data;\r",
+                  "    pm.expect(packstationen).to.be.an('array').that.is.not.empty;\r",
+                  "    packstationen.forEach(packstation => {\r",
+                  "        const { id, version, nummer, adresse } = packstation;\r",
+                  "        pm.expect(id).to.be.a('number').that.is.gte(0);\r",
+                  "        pm.expect(version).to.be.a('number').that.is.gte(0);\r",
+                  "        pm.expect(nummer).to.be.a('string');\r",
+                  "        pm.expect(adresse.stadt).to.be.a('string');\r",
+                  "    });\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "{\r\n  packstationen {\r\n    id\r\n    version\r\n    nummer\r\n    adresse {\r\n      stadt\r\n    }\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "{{graphql_url}}",
+              "host": ["{{graphql_url}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Suche Packstationen in Karlsruhe",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Statuscode 200', () => {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test('Content-Type application/json', () => {\r",
+                  "    const { response } = pm;\r",
+                  "    const contentType = response.headers.get('Content-Type');\r",
+                  "    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
+                  "});\r",
+                  "pm.test('Body mit nummer', () => {\r",
+                  "    const body = pm.response.json();\r",
+                  "    const { packstationen } = body.data;\r",
+                  "    pm.expect(packstationen).to.be.an('array').that.is.not.empty;\r",
+                  "    packstationen.map(packstation => packstation.nummer)\r",
+                  "        .forEach(nummer => pm.expect(nummer).to.be.a('string'));\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query ($stadt: String = \"Karlsruhe\") {\r\n  packstationen(suchkriterien: {stadt: $stadt}) {\r\n    nummer\r\n  }\r\n}",
+                "variables": "{\r\n  \"stadt\": \"Karlsruhe\"\r\n}"
+              }
+            },
+            "url": {
+              "raw": "{{graphql_url}}",
+              "host": ["{{graphql_url}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Suche ausstattung, stadt von Packstationen mit Teilstring \"ann\" in der Stadt",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Statuscode 200', () => {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test('Content-Type application/json', () => {\r",
+                  "    const { response } = pm;\r",
+                  "    const contentType = response.headers.get('Content-Type');\r",
+                  "    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
+                  "});\r",
+                  "pm.test('Body mit ausstattung, stadt', () => {\r",
+                  "    const body = pm.response.json();\r",
+                  "    const { packstationen } = body.data;\r",
+                  "    pm.expect(packstationen).to.be.an('array').that.is.not.empty;\r",
+                  "    packstationen.forEach(packstation => {\r",
+                  "        const { ausstattung, adresse } = packstation;\r",
+                  "        pm.expect(ausstattung).to.be.an('array');\r",
+                  "        pm.expect(adresse.stadt).to.be.a('string').that.includes('ann');\r",
+                  "    });\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "query ($stadt: String = \"ann\") {\r\n  packstationen(suchkriterien: {stadt: $stadt}) {\r\n    ausstattung\r\n    adresse {\r\n      stadt\r\n    }\r\n  }\r\n}",
+                "variables": "{\r\n  \"stadt\": \"ann\"\r\n}"
+              }
+            },
+            "url": {
+              "raw": "{{graphql_url}}",
+              "host": ["{{graphql_url}}"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Queries mit der GraphQL-Schnittstelle"
+    },
+    {
+      "name": "Login",
+      "item": [
+        {
+          "name": "Login als admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Statuscode 200', () => {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test('Content-Type application/json', () => {\r",
+                  "    const { response } = pm;\r",
+                  "    const contentType = response.headers.get('Content-Type');\r",
+                  "    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
+                  "});\r",
+                  "pm.test('Body mit Token', () => {\r",
+                  "    const body = pm.response.json();\r",
+                  "    const { access_token } = body.data.login;\r",
+                  "    pm.expect(access_token).to.be.a('string').that.matches(/.+\\..+\\..+/u);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{TOKEN}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n    login(username: \"admin\", password: \"p\") {\r\n        access_token\r\n    }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "{{graphql_url}}",
+              "host": ["{{graphql_url}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login mit falschem Passwort",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Statuscode 200', () => {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test('Content-Type application/json', () => {\r",
+                  "    const { response } = pm;\r",
+                  "    const contentType = response.headers.get('Content-Type');\r",
+                  "    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
+                  "});\r",
+                  "pm.test('Body mit Fehlermeldung', () => {\r",
+                  "    const body = pm.response.json();\r",
+                  "    const { errors } = body;\r",
+                  "    pm.expect(errors).to.be.an('array').that.has.a.lengthOf(1);\r",
+                  "    const error = errors[0];\r",
+                  "    const { message, path, extensions } = error;\r",
+                  "    pm.expect(message).to.be.a('string').that.includes('Passwort');\r",
+                  "    pm.expect(path).to.be.an('array').that.has.a.lengthOf(1);\r",
+                  "    pm.expect(path[0]).to.be.equal('login');\r",
+                  "    pm.expect(extensions.code).to.be.equal('BAD_USER_INPUT');\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n    login(username: \"admin\", password: \"FALSCH\") {\r\n        access_token\r\n    }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "{{graphql_url}}",
+              "host": ["{{graphql_url}}"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Login mit der GraphQL-Schnittstelle",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "exec": [
+              "pm.sendRequest({",
+              "    url: 'https://localhost:3000/graphql',",
+              "    method: 'POST',",
+              "    header: {",
+              "        'Content-Type': 'application/json',",
+              "    },",
+              "    body: JSON.stringify({",
+              "        query: `",
+              "            mutation {",
+              "                login(username: \"admin\", password: \"p\") {",
+              "                    access_token",
+              "                }",
+              "            }",
+              "        `",
+              "    })",
+              "}, (err, res) => {",
+              "    pm.collectionVariables.set('TOKEN', res.json().data.login.access_token);",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "exec": [""]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Mutation",
+      "item": [
+        {
+          "name": "Neue Packstation",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Statuscode 200', () => {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test('Content-Type application/json', () => {\r",
+                  "    const { response } = pm;\r",
+                  "    const contentType = response.headers.get('Content-Type');\r",
+                  "    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
+                  "});\r",
+                  "pm.test('Body mit den Properties', () => {\r",
+                  "    const body = pm.response.json();\r",
+                  "    const { data } = body;\r",
+                  "    pm.expect(data.create.id).to.be.a('number').that.is.gte(0);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  create(\r\n    input: {\r\n        nummer: \"178\",\r\n        baudatum: \"2036-01-01\",\r\n        adresse: {\r\n            strasse: \"Kriegsstraße\",\r\n            hausnummer: \"23\",\r\n            postleitzahl: \"76133\",\r\n            stadt: \"Karlsruhe\"\r\n        }\r\n    }\r\n  ) {\r\n      id\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "{{graphql_url}}",
+              "host": ["{{graphql_url}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Neue Packstation mit ungültigen Daten",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Statuscode 200', () => {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test('Content-Type application/json', () => {\r",
+                  "    const { response } = pm;\r",
+                  "    const contentType = response.headers.get('Content-Type');\r",
+                  "    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
+                  "});\r",
+                  "pm.test('Fehlermeldungen im Response Body', () => {\r",
+                  "    const body = pm.response.json();\r",
+                  "    const { errors } = body;\r",
+                  "    pm.expect(errors).to.be.an('array').that.has.a.lengthOf(1);\r",
+                  "    const { message, path, extensions } = errors[0];\r",
+                  "    pm.expect(message).to.be.a('string');\r",
+                  "    const props = ['adresse.hausnummer', 'adresse.postleitzahl', 'baudatum'];\r",
+                  "    props.forEach(prop => pm.expect(message).to.include(prop));\r",
+                  "    pm.expect(path).to.be.an('array').that.has.a.lengthOf(1);\r",
+                  "    pm.expect(path[0]).to.be.equal('create');\r",
+                  "    pm.expect(extensions.code).to.be.equal('BAD_USER_INPUT');\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  create(\r\n    input: {\r\n        nummer: \"FALSCH\",\r\n        baudatum: \"FALSCH\",\r\n        adresse: {\r\n            strasse: \"123\",\r\n            hausnummer: \"ABC\",\r\n            postleitzahl: \"ABC\",\r\n            stadt: \"123\"\r\n        }\r\n    }\r\n  ) {\r\n      id\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "{{graphql_url}}",
+              "host": ["{{graphql_url}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Packstation mit ID 4 aktualisieren",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Statuscode 200', () => {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test('Content-Type application/json', () => {\r",
+                  "    const { response } = pm;\r",
+                  "    const contentType = response.headers.get('Content-Type');\r",
+                  "    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
+                  "});\r",
+                  "pm.test('Body mit aktualisierter Versionsnummer', () => {\r",
+                  "    const body = pm.response.json();\r",
+                  "    const { data } = body;\r",
+                  "    pm.expect(data.update.version).to.be.a('number').that.is.gte(0);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  update(\r\n    input: {\r\n        id: \"4\",\r\n        version: 0,\r\n        nummer: \"239\",\r\n        baudatum: \"2023-01-01\",\r\n    }\r\n  ) {\r\n      version\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "{{graphql_url}}",
+              "host": ["{{graphql_url}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Packstation mit ID 4 mit ungültigen Daten aktualisieren",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Statuscode 200', () => {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test('Content-Type application/json', () => {\r",
+                  "    const { response } = pm;\r",
+                  "    const contentType = response.headers.get('Content-Type');\r",
+                  "    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
+                  "});\r",
+                  "pm.test('Fehlermeldungen im Response Body', () => {\r",
+                  "    const body = pm.response.json();\r",
+                  "    const { errors } = body;\r",
+                  "    pm.expect(errors).to.be.an('array').that.has.a.lengthOf(1);\r",
+                  "    const { message, path, extensions } = errors[0];\r",
+                  "    pm.expect(message).to.be.a('string');\r",
+                  "    const props = ['baudatum'];\r",
+                  "    props.forEach(prop => pm.expect(message).to.include(prop));\r",
+                  "    pm.expect(path).to.be.an('array').that.has.a.lengthOf(1);\r",
+                  "    pm.expect(path[0]).to.be.equal('update');\r",
+                  "    pm.expect(extensions.code).to.be.equal('BAD_USER_INPUT');\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  update(\r\n    input: {\r\n        id: \"4\",\r\n        version: 0,\r\n        nummer: \"178\",\r\n        baudatum: \"FALSCH\",\r\n    }\r\n  ) {\r\n      version\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "{{graphql_url}}",
+              "host": ["{{graphql_url}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Nicht-Vorhandene Packstation aktualisieren",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Statuscode 200', () => {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test('Content-Type application/json', () => {\r",
+                  "    const { response } = pm;\r",
+                  "    const contentType = response.headers.get('Content-Type');\r",
+                  "    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
+                  "});\r",
+                  "pm.test('Fehlermeldungen im Response Body', () => {\r",
+                  "    const body = pm.response.json();\r",
+                  "    const { errors } = body;\r",
+                  "    pm.expect(errors).to.be.an('array').that.has.a.lengthOf(1);\r",
+                  "    const { message, path, extensions } = errors[0];\r",
+                  "    pm.expect(message).to.be.a('string').that.includes('9999');\r",
+                  "    pm.expect(path).to.be.an('array').that.has.a.lengthOf(1);\r",
+                  "    pm.expect(path[0]).to.be.equal('update');\r",
+                  "    pm.expect(extensions.code).to.be.equal('BAD_USER_INPUT');\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  update(\r\n    input: {\r\n        id: \"9999\",\r\n        version: 0,\r\n        nummer: \"178\",\r\n        baudatum: \"2036-01-01\",\r\n    }\r\n  ) {\r\n      version\r\n  }\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "{{graphql_url}}",
+              "host": ["{{graphql_url}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Packstation mit ID 6 löschen",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Statuscode 200', () => {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test('Content-Type application/json', () => {\r",
+                  "    const { response } = pm;\r",
+                  "    const contentType = response.headers.get('Content-Type');\r",
+                  "    pm.expect(contentType).to.match(/^application\\/json(; charset=utf-8)?/u);\r",
+                  "});\r",
+                  "pm.test('Body mit den Properties', () => {\r",
+                  "    const body = pm.response.json();\r",
+                  "    const { data } = body;\r",
+                  "    pm.expect(data.delete).to.be.true;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "graphql",
+              "graphql": {
+                "query": "mutation {\r\n  delete(id: \"6\")\r\n}",
+                "variables": ""
+              }
+            },
+            "url": {
+              "raw": "{{graphql_url}}",
+              "host": ["{{graphql_url}}"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "description": "Neuanlegen, Ändern und Löschen mit der GraphQL-Schnittstelle",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{TOKEN}}",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest({",
+              "    url: 'https://localhost:3000/graphql',",
+              "    method: 'POST',",
+              "    header: {",
+              "        'Content-Type': 'application/json',",
+              "    },",
+              "    body: JSON.stringify({",
+              "        query: `",
+              "            mutation {",
+              "                login(username: \"admin\", password: \"p\") {",
+              "                    access_token",
+              "                }",
+              "            }",
+              "        `",
+              "    })",
+              "}, (err, res) => {",
+              "    pm.collectionVariables.set('TOKEN', res.json().data.login.access_token);",
+              "});"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "graphql_url",
+      "value": "{{base_url}}/graphql",
+      "type": "string"
+    },
+    {
+      "key": "TOKEN",
+      "value": "",
+      "type": "string"
+    }
+  ]
 }
