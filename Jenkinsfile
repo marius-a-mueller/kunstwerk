@@ -116,20 +116,6 @@ pipeline {
                       reportName: 'Projekthandbuch',
                       reportTitles: 'Projekthandbuch'
                   ])
-
-                  publishHTML target : [
-                      reportDir: '.extras/doc/folien',
-                      reportFiles: 'folien.html',
-                      reportName: 'Folien (reveal.js)',
-                      reportTitles: 'reveal.js'
-                  ]
-
-                  publishHTML target : [
-                      reportDir: '.extras/doc/api',
-                      reportFiles: 'index.html',
-                      reportName: 'TypeDoc',
-                      reportTitles: 'TypeDoc'
-                  ]
                 }
 
                 success {
