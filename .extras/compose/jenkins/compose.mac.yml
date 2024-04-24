@@ -11,11 +11,6 @@
 #                   VERSION="12 (bookworm)"
 #           docker compose down
 
-# https://github.com/compose-spec/compose-spec/blob/master/spec.md#compose-file
-# https://github.com/compose-spec/compose-spec/blob/master/spec.md#services-top-level-element
-# https://docs.docker.com/compose/compose-file
-# https://docs.docker.com/compose/compose-file/compose-file-v3
-
 services:
   docker:
     image: docker:26.0.0-rc2-dind
@@ -23,7 +18,8 @@ services:
     ports:
       - published: 3000
         target: 3000
-      - published: 5000
+      # port 5000 ist auf dem Mac bereits belegt
+      - published: 5001
         target: 5000
       - published: 2376
         target: 2376
