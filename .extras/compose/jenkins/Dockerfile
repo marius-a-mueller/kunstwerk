@@ -10,7 +10,7 @@
 # https://www.jenkins.io/doc/book/installing/docker
 # https://manpages.debian.org/bullseye/apt/apt-get.8.en.html
 
-ARG JENKINS_VERSION=2.449-jdk21
+ARG JENKINS_VERSION=2.453-jdk21
 
 FROM jenkins/jenkins:${JENKINS_VERSION}
 
