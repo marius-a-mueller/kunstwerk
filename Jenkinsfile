@@ -3,7 +3,7 @@
 pipeline {
     agent {
         docker {
-            image 'node:20.11.0-bookworm'
+            image 'node:20.11.1-bookworm'
             args '--publish 3000:3000 --publish 5000:5000'
             args '--user root:root'
         }
