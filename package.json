@@ -38,7 +38,6 @@
     "prettier": "prettier --cache --write \"src/**/*.ts\" \"__tests__/**/*.ts\"",
     "prettier:check": "prettier --cache --check \"src/**/*.ts\" \"__tests__/**/*.ts\"",
     "readme2html": "node scripts/readme2html",
-    "revealjs": "asciidoctor-revealjs .extras/doc/folien/folien.adoc",
     "snyk:auth": "echo https://app.snyk.io/account && snyk auth",
     "snyk": "snyk test",
     "sonar": "node scripts/sonar-scanner",
